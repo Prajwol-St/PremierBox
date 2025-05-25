@@ -8,6 +8,10 @@
             <file>file:/C:/Users/Hp/Documents/NetBeansProjects/MovieTicket/src/movieticket/view/DashboardView.java</file>
             <file>file:/C:/Users/Hp/Documents/NetBeansProjects/MovieTicket/src/movieticket/MovieTicket.java</file>
             <file>file:/C:/Users/Hp/Documents/NetBeansProjects/MovieTicket/src/movieticket/view/EntryView.java</file>
+            <file>file:/C:/Users/Hp/Documents/NetBeansProjects/MovieTicket/src/movieticket/model/UserData.java</file>
+            <file>file:/C:/Users/Hp/Documents/NetBeansProjects/MovieTicket/src/movieticket/database/DbConnection.java</file>
+            <file>file:/C:/Users/Hp/Documents/NetBeansProjects/MovieTicket/src/movieticket/database/MySqlConnection.java</file>
+            <file>file:/C:/Users/Hp/Documents/NetBeansProjects/MovieTicket/src/movieticket/dao/UserDao.java</file>
         </group>
     </open-files>
 </project-private>

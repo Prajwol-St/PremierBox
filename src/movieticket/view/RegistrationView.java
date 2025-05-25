@@ -121,7 +121,7 @@ public class RegistrationView extends javax.swing.JFrame {
 
         loginLabel.setBackground(new java.awt.Color(0, 153, 153));
         loginLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        loginLabel.setForeground(new java.awt.Color(255, 255, 255));
+        loginLabel.setForeground(new java.awt.Color(204, 0, 51));
         loginLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         loginLabel.setText("Login");
 
