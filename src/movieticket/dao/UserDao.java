@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import movieticket.database.MySqlConnection;
 import movieticket.model.LoginRequest;
+import movieticket.model.ResetPasswordRequest;
 import movieticket.model.UserData;
 
 /**
@@ -76,5 +77,47 @@ public class UserDao {
             mySql.closeConnection(conn);
         }
         return null;
+    }
+    
+    public boolean checkEmail(String email){
+        String query = "SELECT * FROM demoUserss where email = ?";
+        Connection conn = mySql.openConnection();
+        try{
+            PreparedStatement stmnt = conn.prepareStatement(query);
+            stmnt.setString(1, email);
+            ResultSet result = stmnt.executeQuery();
+            if(result.next()){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(Exception e){
+            return false;
+        } finally{
+            mySql.closeConnection(conn);
+        }
+    }
+    
+    public boolean resetPassword(ResetPasswordRequest resetReq){
+//        step1 : write a query in string
+        String query = "UPDATE demoUserss SET password = ? WHERE email=?";
+//         open connection
+        Connection conn = mySql.openConnection();
+        try{
+//           step 3: prepare statement
+            PreparedStatement stmnt = conn.prepareStatement(query);
+//            step 4: use setstring to prepare query if needed
+            stmnt.setString(1,resetReq.getPassword());
+            stmnt.setString(2,resetReq.getEmail());
+//            step 5: executequery or executeupdate
+            int result = stmnt.executeUpdate();
+            System.out.println("RESULT::"+result);
+            return result>0;
+        }catch (Exception e){
+            System.out.println("EXCEPTION::"+e);
+            return false;
+        } finally{
+            mySql.closeConnection(conn);
+        }
     }
 }

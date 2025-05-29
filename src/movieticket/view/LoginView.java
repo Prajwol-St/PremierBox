@@ -134,7 +134,7 @@ public class LoginView extends javax.swing.JFrame {
                         .addComponent(loginButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(showPasswordButton)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(21, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,7 +166,7 @@ public class LoginView extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 160, 450, 290));
 
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Hp\\Documents\\back.png")); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 600));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1000, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -225,7 +225,7 @@ public class LoginView extends javax.swing.JFrame {
     private javax.swing.JButton showPasswordButton;
     // End of variables declaration//GEN-END:variables
 
- public javax.swing.JTextField getEmailTextField(){
+    public javax.swing.JTextField getEmailTextField(){
         return emailTextField;
     }
      public javax.swing.JPasswordField getPasswordField(){
@@ -245,6 +245,10 @@ public class LoginView extends javax.swing.JFrame {
     }
     public void showPasswordButtonListener(ActionListener listener){
         showPasswordButton.addActionListener(listener);
+    }
+    
+    public void forgotPassword(MouseListener listener){
+        forgotPasswordLabel.addMouseListener(listener);
     }
 
 
