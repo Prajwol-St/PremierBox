@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/TicketManagementSystem/src/ticketmanagementsystem/Registration.java</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/TicketManagementSystem/src/ticketmanagementsystem/Login.java</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/TicketManagementSystem/src/ticketmanagementsystem/EntryView.java</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/TicketManagementSystem/src/ticketmanagementsystem/AdminLogin.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/tdd/src/tdd/src/Booking.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/tdd/src/tdd/src/Movie.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/tdd/src/tdd/src/MovieDashboard.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/tdd/src/tdd/src/BookingManager.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/tdd/src/tdd/test/Bookingtest.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/tdd/src/tdd/test/MovieDashboardtest.java</file>
         </group>
     </open-files>
 </project-private>
