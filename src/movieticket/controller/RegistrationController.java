@@ -25,7 +25,7 @@ import movieticket.view.RegistrationView;
  * @author Hp
  */
 public class RegistrationController {
-       private final UserDao userDao= new UserDao();
+    private final UserDao userDao= new UserDao();
     private boolean isPasswordVisible = false;
     private boolean isConfirmPasswordVisible = false;
     private final RegistrationView registrationView;

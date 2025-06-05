@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import movieticket.model.Movie;
-import movieticket.model.MovieData;
+import movieticket.model.MoviesData;
 
 
 /**
@@ -330,7 +330,7 @@ public class BrowseMovies extends javax.swing.JFrame {
     }//GEN-LAST:event_MovieName1MouseClicked
 
     private void loadMoviePosters() {
-    for (Movie movie : MovieData.movieList) {
+    for (Movie movie : MoviesData.movieList) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(new Color(51, 51, 51));

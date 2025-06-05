@@ -4,23 +4,20 @@
  */
 package movieticket.view;
 
-import java.awt.Color;
-import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.io.File;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import movieticket.model.Movie;
-import movieticket.model.MovieData;
 
 
 /**
  *
  * @author acer
  */
+
 public class AdminMovies extends javax.swing.JFrame {
     DefaultTableModel tableModel;
+    File selectedFile;
+
 
 
     /**
@@ -28,44 +25,18 @@ public class AdminMovies extends javax.swing.JFrame {
      */
     public AdminMovies() {
         initComponents();
-       
-
-
-        String[] columns = {"Movie Title", "Genre", "Duration", "Date"};
-    tableModel = new DefaultTableModel(columns, 0);
-    movieTable.setModel(tableModel);
-    movieTable.addMouseListener(new java.awt.event.MouseAdapter() {
-    public void mouseClicked(java.awt.event.MouseEvent evt) {
-        int row = movieTable.getSelectedRow();
-        txtTitle.setText(tableModel.getValueAt(row, 0).toString());
-        txtGenre.setText(tableModel.getValueAt(row, 1).toString());
-        txtDuration.setText(tableModel.getValueAt(row, 2).toString());
-        txtDate.setText(tableModel.getValueAt(row, 3).toString());
         
-
-    if (txtTitle.getText().trim().isEmpty()) {
-        txtTitle.setText("Enter Movie title");
-        txtTitle.setForeground(Color.GRAY);
-    }
-    txtTitle.addFocusListener(new java.awt.event.FocusAdapter() {
-        public void focusGained(java.awt.event.FocusEvent evt) {
-            if (txtTitle.getText().equals("Enter Movie title")) {
-                txtTitle.setText("");
-                txtTitle.setForeground(Color.BLACK);
+        String[] columns = {"ID", "Movie Title", "Genre", "Duration", "Date"};
+        tableModel = new DefaultTableModel(columns, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make table cells non-editable
             }
-        }
-        public void focusLost(java.awt.event.FocusEvent evt) {
-            if (txtTitle.getText().isEmpty()) {
-                txtTitle.setForeground(Color.GRAY);
-                txtTitle.setText("Enter Movie title");
-            }
-        }
-});
-
-    }
-});
-        
-        
+        };
+        movieTable.setModel(tableModel);
+        movieTable.getColumnModel().getColumn(0).setMinWidth(0); // Hide ID column
+        movieTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        movieTable.getColumnModel().getColumn(0).setWidth(0);
     }
 
     /**
@@ -79,15 +50,15 @@ public class AdminMovies extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         lblPoster = new javax.swing.JLabel();
-        btnImport = new javax.swing.JButton();
+        posterField = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        txtTitle = new javax.swing.JTextField();
+        movieTitleField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtGenre = new javax.swing.JTextField();
-        txtDuration = new javax.swing.JTextField();
-        txtDate = new javax.swing.JTextField();
+        genreField = new javax.swing.JTextField();
+        durationField = new javax.swing.JTextField();
+        dateField = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -101,13 +72,13 @@ public class AdminMovies extends javax.swing.JFrame {
 
         lblPoster.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/smallpost.png"))); // NOI18N
 
-        btnImport.setBackground(new java.awt.Color(0, 102, 255));
-        btnImport.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnImport.setForeground(new java.awt.Color(255, 255, 255));
-        btnImport.setText("Import");
-        btnImport.addActionListener(new java.awt.event.ActionListener() {
+        posterField.setBackground(new java.awt.Color(0, 102, 255));
+        posterField.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        posterField.setForeground(new java.awt.Color(255, 255, 255));
+        posterField.setText("Import");
+        posterField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnImportActionPerformed(evt);
+                posterFieldActionPerformed(evt);
             }
         });
 
@@ -115,9 +86,9 @@ public class AdminMovies extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Movie Title");
 
-        txtTitle.addActionListener(new java.awt.event.ActionListener() {
+        movieTitleField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTitleActionPerformed(evt);
+                movieTitleFieldActionPerformed(evt);
             }
         });
 
@@ -133,15 +104,15 @@ public class AdminMovies extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Date");
 
-        txtGenre.addActionListener(new java.awt.event.ActionListener() {
+        genreField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtGenreActionPerformed(evt);
+                genreFieldActionPerformed(evt);
             }
         });
 
-        txtDate.addActionListener(new java.awt.event.ActionListener() {
+        dateField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDateActionPerformed(evt);
+                dateFieldActionPerformed(evt);
             }
         });
 
@@ -194,14 +165,14 @@ public class AdminMovies extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtGenre, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDuration, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(movieTitleField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(genreField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(durationField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(121, 121, 121)
-                .addComponent(btnImport)
+                .addComponent(posterField)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
@@ -218,22 +189,22 @@ public class AdminMovies extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(lblPoster, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnImport)
+                .addComponent(posterField)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(movieTitleField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtGenre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(genreField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDuration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(durationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -297,84 +268,35 @@ public class AdminMovies extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
-// Create a file chooser to pick an image
-JFileChooser fileChooser = new JFileChooser();
-fileChooser.setDialogTitle("Choose a poster image");
+    private void posterFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_posterFieldActionPerformed
 
-// Allow only image files to be selected
-fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
-    "Image files", "jpg", "jpeg", "png"
-));
-
-// Show the file dialog
-int result = fileChooser.showOpenDialog(this);
-
-// If the user selects a file and clicks Open
-if (result == JFileChooser.APPROVE_OPTION) {
-    File selectedFile = fileChooser.getSelectedFile();
-    String selectedPosterPath = selectedFile.getAbsolutePath(); // Save path for later
-
-    // Display the selected image in lblPoster
-    ImageIcon icon = new ImageIcon(selectedPosterPath);
-    Image img = icon.getImage().getScaledInstance(lblPoster.getWidth(), lblPoster.getHeight(), Image.SCALE_SMOOTH);
-    lblPoster.setIcon(new ImageIcon(img));
-}
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnImportActionPerformed
+    }//GEN-LAST:event_posterFieldActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-    String title = txtTitle.getText();
-    String genre = txtGenre.getText();
-    String duration = txtDuration.getText();
-    String date = txtDate.getText();
-
-    Object[] row = {title, genre, duration, date};
-    tableModel.addRow(row);
-
-    // Optionally clear inputs
-    txtTitle.setText("");
-    txtGenre.setText("");
-    txtDuration.setText("");
-    txtDate.setText("");
-        String selectedPosterPath = null;
-        Movie movie = new Movie(title, genre, duration, date, selectedPosterPath);
-    MovieData.movieList.add(movie);
             // TODO add your handling code here:
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-    int selectedRow = movieTable.getSelectedRow();
-    if (selectedRow >= 0) {
-        tableModel.setValueAt(txtTitle.getText(), selectedRow, 0);
-        tableModel.setValueAt(txtGenre.getText(), selectedRow, 1);
-        tableModel.setValueAt(txtDuration.getText(), selectedRow, 2);
-        tableModel.setValueAt(txtDate.getText(), selectedRow, 3);
-    } else {
-        JOptionPane.showMessageDialog(this, "Select a row to update.");
-    }        // TODO add your handling code here:
+            // TODO add your handling code here:
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-    int selectedRow = movieTable.getSelectedRow();
-    if (selectedRow >= 0) {
-        tableModel.removeRow(selectedRow);
-    } else {
-        JOptionPane.showMessageDialog(this, "Select a row to delete.");
-    }        // TODO add your handling code here:
+            // TODO add your handling code here:
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void txtTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTitleActionPerformed
+    
+    
+    private void movieTitleFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movieTitleFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTitleActionPerformed
+    }//GEN-LAST:event_movieTitleFieldActionPerformed
 
-    private void txtDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDateActionPerformed
+    private void dateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtDateActionPerformed
+    }//GEN-LAST:event_dateFieldActionPerformed
 
-    private void txtGenreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGenreActionPerformed
+    private void genreFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genreFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtGenreActionPerformed
+    }//GEN-LAST:event_genreFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -405,6 +327,7 @@ if (result == JFileChooser.APPROVE_OPTION) {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new AdminMovies().setVisible(true);
             }
@@ -414,8 +337,10 @@ if (result == JFileChooser.APPROVE_OPTION) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnImport;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JTextField dateField;
+    private javax.swing.JTextField durationField;
+    private javax.swing.JTextField genreField;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -425,13 +350,55 @@ if (result == JFileChooser.APPROVE_OPTION) {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblPoster;
     private javax.swing.JTable movieTable;
-    private javax.swing.JTextField txtDate;
-    private javax.swing.JTextField txtDuration;
-    private javax.swing.JTextField txtGenre;
-    private javax.swing.JTextField txtTitle;
+    private javax.swing.JTextField movieTitleField;
+    private javax.swing.JButton posterField;
     // End of variables declaration//GEN-END:variables
 
     
+    
+    public javax.swing.JTable getMovieTable() {
+        return movieTable;
+    }
+
+    public void addMoviesListener(ActionListener listener) {
+        btnAdd.addActionListener(listener);
+    }
+    
+    public void updateMoviesListener(ActionListener listener) {
+        btnUpdate.addActionListener(listener);
+    }
+    
+    public void deleteMovieListener(ActionListener listener) {
+        btnDelete.addActionListener(listener);
+    }
+    
+    public void importMovieListener(ActionListener listener) {
+        posterField.addActionListener(listener);
+    }
+    
+    public javax.swing.JTextField getMovieTitleField() {
+        return movieTitleField;
+    }
+    
+    public javax.swing.JTextField getGenreField() {
+        return genreField;
+    }
+    
+    public javax.swing.JTextField getDurationField() {
+        return durationField;
+    }
+    
+    public javax.swing.JTextField getDateField() {
+        return dateField;
+    }
+    
+    public void setSelectedFile(File file) {
+        this.selectedFile = file;
+    }
+    
+    public File getSelectedFile() {
+        return selectedFile;
+    }
 }
     
 

@@ -66,10 +66,10 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtTitle" alignment="0" min="-2" pref="210" max="-2" attributes="0"/>
-                              <Component id="txtGenre" min="-2" pref="210" max="-2" attributes="0"/>
-                              <Component id="txtDuration" min="-2" pref="210" max="-2" attributes="0"/>
-                              <Component id="txtDate" min="-2" pref="210" max="-2" attributes="0"/>
+                              <Component id="movieTitleField" alignment="0" min="-2" pref="210" max="-2" attributes="0"/>
+                              <Component id="genreField" min="-2" pref="210" max="-2" attributes="0"/>
+                              <Component id="durationField" min="-2" pref="210" max="-2" attributes="0"/>
+                              <Component id="dateField" min="-2" pref="210" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -77,7 +77,7 @@
               </Group>
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="121" max="-2" attributes="0"/>
-                  <Component id="btnImport" min="-2" max="-2" attributes="0"/>
+                  <Component id="posterField" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
@@ -97,25 +97,25 @@
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   <Component id="lblPoster" min="-2" pref="197" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btnImport" min="-2" max="-2" attributes="0"/>
+                  <Component id="posterField" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtTitle" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="movieTitleField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txtGenre" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="genreField" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txtDuration" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="durationField" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txtDate" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="dateField" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
@@ -137,7 +137,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnImport">
+        <Component class="javax.swing.JButton" name="posterField">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="66" red="0" type="rgb"/>
@@ -151,7 +151,7 @@
             <Property name="text" type="java.lang.String" value="Import"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnImportActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="posterFieldActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
@@ -165,9 +165,9 @@
             <Property name="text" type="java.lang.String" value="Movie Title"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtTitle">
+        <Component class="javax.swing.JTextField" name="movieTitleField">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtTitleActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="movieTitleFieldActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
@@ -203,16 +203,16 @@
             <Property name="text" type="java.lang.String" value="Date"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtGenre">
+        <Component class="javax.swing.JTextField" name="genreField">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtGenreActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="genreFieldActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtDuration">
+        <Component class="javax.swing.JTextField" name="durationField">
         </Component>
-        <Component class="javax.swing.JTextField" name="txtDate">
+        <Component class="javax.swing.JTextField" name="dateField">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDateActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dateFieldActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnAdd">

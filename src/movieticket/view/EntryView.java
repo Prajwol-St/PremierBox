@@ -87,7 +87,7 @@ public class EntryView extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, 450, 280));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Hp\\Documents\\back.png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/back.png"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 600));
 
         setSize(new java.awt.Dimension(1014, 608));
