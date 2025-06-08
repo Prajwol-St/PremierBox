@@ -31,7 +31,11 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+<<<<<<< HEAD
           <AbsoluteConstraints x="250" y="100" width="560" height="410"/>
+=======
+          <AbsoluteConstraints x="210" y="80" width="560" height="410"/>
+>>>>>>> a3109e1f8137e0ca0979830b0c72c0f122c66cb3
         </Constraint>
       </Constraints>
 
@@ -279,6 +283,12 @@
               </Border>
             </Property>
           </Properties>
+<<<<<<< HEAD
+=======
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="uploadImageButtonActionPerformed"/>
+          </Events>
+>>>>>>> a3109e1f8137e0ca0979830b0c72c0f122c66cb3
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="RegistrationView_uploadImageButton"/>
           </AuxValues>
@@ -314,6 +324,12 @@
               </Border>
             </Property>
           </Properties>
+<<<<<<< HEAD
+=======
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registerButtonActionPerformed"/>
+          </Events>
+>>>>>>> a3109e1f8137e0ca0979830b0c72c0f122c66cb3
         </Component>
         <Component class="javax.swing.JLabel" name="noAccountLabel">
           <Properties>
@@ -359,11 +375,14 @@
       </SubComponents>
     </Container>
     <Component class="javax.swing.JLabel" name="jLabel1">
+<<<<<<< HEAD
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="2" name="C:\Users\Hp\Documents\back.png"/>
         </Property>
       </Properties>
+=======
+>>>>>>> a3109e1f8137e0ca0979830b0c72c0f122c66cb3
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>

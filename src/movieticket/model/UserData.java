@@ -14,6 +14,7 @@ public class UserData {
     private String email;
     private String password;
     private  byte[] image;
+    private boolean isAdmin;
     public UserData(String name,String email, String password, byte[] image){
         this.name= name;
         this.email=email;
@@ -59,5 +60,11 @@ public class UserData {
     }
     public byte[] getImage(){
         return this.image;
+    }
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+    public void setIsAdmin(boolean isAdmin){
+        this.isAdmin = isAdmin;
     }
 }

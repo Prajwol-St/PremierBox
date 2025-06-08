@@ -4,9 +4,7 @@
  */
 package movieticket.controller;
 
-
 import movieticket.view.DashboardView;
-
 
 /**
  *
