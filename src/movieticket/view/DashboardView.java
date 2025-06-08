@@ -4,15 +4,16 @@
  */
 package movieticket.view;
 
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
 /**
  *
  * @author Hp
  */
 public class DashboardView extends javax.swing.JFrame {
 
-    /**
-     * Creates new form DashboardView
-     */
+  
     public DashboardView() {
         initComponents();
     }
@@ -26,38 +27,17 @@ public class DashboardView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        addProductButton = new javax.swing.JButton();
-        productListButton = new javax.swing.JButton();
+        mainPanel = new javax.swing.JPanel();
         profileButton = new javax.swing.JButton();
+        availableMovies = new javax.swing.JButton();
+        seatPlan = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setOpaque(false);
-
-        addProductButton.setBackground(new java.awt.Color(0, 0, 0));
-        addProductButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        addProductButton.setForeground(new java.awt.Color(255, 255, 255));
-        addProductButton.setText("Available Movies");
-        addProductButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(25, 25, 112), 1, true));
-        addProductButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addProductButtonActionPerformed(evt);
-            }
-        });
-
-        productListButton.setBackground(new java.awt.Color(0, 0, 0));
-        productListButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        productListButton.setForeground(new java.awt.Color(255, 255, 255));
-        productListButton.setText("Seat Plan");
-        productListButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(25, 25, 112), 1, true));
-        productListButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                productListButtonActionPerformed(evt);
-            }
-        });
+        mainPanel.setOpaque(false);
 
         profileButton.setBackground(new java.awt.Color(0, 0, 0));
         profileButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
@@ -70,45 +50,78 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        availableMovies.setBackground(new java.awt.Color(0, 0, 0));
+        availableMovies.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        availableMovies.setForeground(new java.awt.Color(255, 255, 255));
+        availableMovies.setText("Available Movies");
+        availableMovies.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(25, 25, 112), 1, true));
+        availableMovies.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                availableMoviesActionPerformed(evt);
+            }
+        });
+
+        seatPlan.setBackground(new java.awt.Color(0, 0, 0));
+        seatPlan.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        seatPlan.setForeground(new java.awt.Color(255, 255, 255));
+        seatPlan.setText("Seat Plan");
+        seatPlan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(25, 25, 112), 1, true));
+        seatPlan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seatPlanActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(availableMovies))
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(seatPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(mainPanelLayout.createSequentialGroup()
+                    .addGap(17, 17, 17)
                     .addComponent(profileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addProductButton, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(productListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addContainerGap(22, Short.MAX_VALUE)))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(addProductButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(124, 124, 124)
+                .addComponent(availableMovies)
                 .addGap(18, 18, 18)
-                .addComponent(productListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(profileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addComponent(seatPlan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(222, Short.MAX_VALUE))
+            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(mainPanelLayout.createSequentialGroup()
+                    .addGap(58, 58, 58)
+                    .addComponent(profileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(329, Short.MAX_VALUE)))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 170, 150));
+        getContentPane().add(mainPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 150, 420));
 
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Hp\\Documents\\back.png")); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 600));
+        getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 61, 500, 360));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addProductButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProductButtonActionPerformed
+    private void availableMoviesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_availableMoviesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addProductButtonActionPerformed
+    }//GEN-LAST:event_availableMoviesActionPerformed
 
-    private void productListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productListButtonActionPerformed
+    private void seatPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seatPlanActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_productListButtonActionPerformed
+    }//GEN-LAST:event_seatPlanActionPerformed
 
     private void profileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileButtonActionPerformed
         // TODO add your handling code here:
@@ -150,10 +163,33 @@ public class DashboardView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addProductButton;
+    private javax.swing.JButton availableMovies;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton productListButton;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel mainPanel;
     private javax.swing.JButton profileButton;
+    private javax.swing.JButton seatPlan;
     // End of variables declaration//GEN-END:variables
+
+
+    
+    public JButton jbtnMovies(){
+        return availableMovies;
+    }
+    
+    
+    public JButton jbtnSeat(){
+        return seatPlan;
+    }
+        
+    public JButton jbtnProfile(){
+        return profileButton;
+    }
+    
+    
+    public JPanel getmainPanel(){
+        return mainPanel;
+    }
+    
+
 }

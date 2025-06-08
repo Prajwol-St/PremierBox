@@ -4,7 +4,9 @@
  */
 package movieticket.controller;
 
+
 import movieticket.view.DashboardView;
+
 
 /**
  *
@@ -14,6 +16,17 @@ public class DashboardController {
     DashboardView dashboardView;
     public DashboardController(DashboardView dashboardView){
         this.dashboardView=dashboardView;
+        
+        
+//        JPanel mainPanel = dashboardView.getmainPanel();
+        
+        
+//    dashboardView.jbtnMovies().addActionListener(e -> {
+//        dashboardView.getmainPanel().removeAll();
+//        dashboardView.getmainPanel().add(new MoviePanel());
+//        dashboardView.getmainPanel().revalidate();
+//        dashboardView.getmainPanel().repaint();
+//});
     }
     public void open(){
         this.dashboardView.setVisible(true);

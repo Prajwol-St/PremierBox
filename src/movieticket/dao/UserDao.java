@@ -18,6 +18,7 @@ import movieticket.model.UserData;
  * @author Hp
  */
 public class UserDao {
+    
      MySqlConnection mySql = new MySqlConnection();
     public boolean registerUser(UserData userData){
         Connection conn= mySql.openConnection();
