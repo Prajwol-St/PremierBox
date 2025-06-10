@@ -12,6 +12,7 @@ import movieticket.database.MySqlConnection;
 import movieticket.model.LoginRequest;
 import movieticket.model.ResetPasswordRequest;
 import movieticket.model.UserData;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -27,9 +28,10 @@ public class UserDao {
             + "name VARCHAR(50) NOT NULL, "
             + "email VARCHAR(100) UNIQUE NOT NULL, "
             + "password VARCHAR(255) NOT NULL, "
-            + "image BLOB NOT NULL"
+            + "image BLOB NOT NULL, "
+            + "isAdmin BOOLEAN DEFAULT FALSE"
             + ")";
-         String query=  "INSERT INTO demoUserss (name, email, password,image) VALUES (?, ?, ?,?)";
+        String query=  "INSERT INTO demoUserss (name, email, password,image, isAdmin) VALUES (?, ?, ?, ?, ?)";
          
         try {
             PreparedStatement createtbl= conn.prepareStatement(createTableSQL);
@@ -39,10 +41,16 @@ public class UserDao {
         }
         
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            
+            String hashedPassword = BCrypt.hashpw(userData.getPassword(), BCrypt.gensalt());
+            
+            
             pstmt.setString(1, userData.getName());
             pstmt.setString(2, userData.getEmail());
-            pstmt.setString(3, userData.getPassword());
+            pstmt.setString(3, hashedPassword);
             pstmt.setBytes(4, userData.getImage());
+            pstmt.setBoolean(5, userData.isAdmin());
+            
             int result = pstmt.executeUpdate();
             return result > 0;
         } catch (SQLException ex) {
@@ -56,21 +64,31 @@ public class UserDao {
     
     public UserData loginUser(LoginRequest loginData){
         Connection conn = mySql.openConnection();
-        String sql = "SELECT * FROM demoUserss where email = ? and password = ?";
+        String sql = "SELECT * FROM demoUserss where email = ?";
+        
+        
+        
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, loginData.getEmail());
-            pstmt.setString(2, loginData.getPassword());
             ResultSet result = pstmt.executeQuery();
-            if(result.next()){
-                UserData user  = new UserData(
-                    result.getString("name"),
-                    result.getString("email"),
-                    result.getString("password"),
-                    result.getBytes("image")                 
-                );
+            
+            if (result.next()) {
+                String storedHashedPassword = result.getString("password");
+                String enteredPassword = loginData.getPassword();
+            
+            if (BCrypt.checkpw(enteredPassword, storedHashedPassword)) {
+                    // Password matches
+                    UserData user = new UserData(
+                        result.getString("name"),
+                        result.getString("email"),
+                        storedHashedPassword,
+                        result.getBytes("image")
+                    );
                 user.setId(result.getInt("id"));
+                user.setIsAdmin(result.getBoolean("isAdmin"));
                 
                 return user;
+            }
             }
         } catch (SQLException ex) {
             System.out.println(ex);
