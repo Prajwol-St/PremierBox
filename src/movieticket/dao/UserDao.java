@@ -64,7 +64,7 @@ public class UserDao {
     
     public UserData loginUser(LoginRequest loginData){
         Connection conn = mySql.openConnection();
-        String sql = "SELECT * FROM demoUserss where email = ? and password = ?";
+        String sql = "SELECT * FROM demoUserss where email = ?";
         
         
         
