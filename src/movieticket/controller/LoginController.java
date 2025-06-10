@@ -14,6 +14,7 @@ import movieticket.dao.UserDao;
 import movieticket.model.LoginRequest;
 import movieticket.model.ResetPasswordRequest;
 import movieticket.model.UserData;
+import movieticket.view.AdminMovies;
 import movieticket.view.DashboardView;
 import movieticket.view.LoginView;
 import movieticket.view.RegistrationView;
@@ -160,9 +161,18 @@ public class LoginController {
                     
                     JOptionPane.showMessageDialog(loginView, 
                         "Login Successfull");
-                    DashboardView dashboardView = new DashboardView();
-                    DashboardController dashboardController= new DashboardController(dashboardView);
-                    dashboardController.open();
+                    if (user.isAdmin()) {
+                        // Open Admin Panel
+                        AdminMovies adminMovies = new AdminMovies(); 
+                        AdminMoviesController adminMoviesController = new AdminMoviesController(adminMovies);
+                        adminMoviesController.open();
+                    } else {
+                        // Open User Dashboard
+                        DashboardView dashboardView = new DashboardView();
+                        DashboardController dashboardController = new DashboardController(dashboardView);
+                        dashboardController.open();
+                    }
+                    
                     close();
                 } else{
                          JOptionPane.showMessageDialog(loginView, 
