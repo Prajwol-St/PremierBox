@@ -18,9 +18,9 @@ public class SMTPSMailSender {
 
     private static final String port = "587"; 
 
-    private static final String email = "aayush0510bohara@gmail.com";
+    private static final String email = "bookingmovieticket6@gmail.com";
 //Enter your app password
-    private static String password = "bxlp zrdt omsq kevy"; 
+    private static String password = "ywvo hbll zrkn ewoo"; 
 
 
 
