@@ -32,6 +32,16 @@ public class RegistrationTest {
         assertFalse(registration.register("user1","new123","newuser@example.com"));
     }
     
+    @Test 
+    public void testResgisterInvalidPassword(){
+        assertFalse(registration.register("user2","1234","user2@gmail.com"));
+    }
+    
+    @Test
+    public void testingRegisterInvalidEmail(){
+        assertFalse(registration.register("user3","pass123","invalidemail"));
+    }
+    
 }
 class Registration {
     private String storedUsername = null;
