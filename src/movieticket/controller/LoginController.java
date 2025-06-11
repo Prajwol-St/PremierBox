@@ -9,8 +9,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
+import movieticket.controller.mail.SMTPSMailSender;
 import movieticket.dao.UserDao;
 import movieticket.model.LoginRequest;
+import movieticket.model.ResetPasswordRequest;
 import movieticket.model.UserData;
 import movieticket.view.AdminMovies;
 import movieticket.view.DashboardView;
@@ -22,7 +24,7 @@ import movieticket.view.RegistrationView;
  * @author Hp
  */
 public class LoginController {
-       private final UserDao userDao= new UserDao();
+    private final UserDao userDao= new UserDao();
     private final LoginView loginView;
     private boolean isPasswordVisible = false;
     public LoginController( LoginView loginView){
@@ -30,6 +32,8 @@ public class LoginController {
         loginView.addLoginUserListener(new LoginUserListener());
         loginView.addRegisterListener(new RegistrationListener());
         loginView.showPasswordButtonListener(new ShowPasswordListener());
+        ResetPassword resetPass = new ResetPassword();
+        this.loginView.forgotPassword(resetPass);
 
     }
     public void open(){
@@ -37,6 +41,67 @@ public class LoginController {
     }
     public void close(){
         this.loginView.dispose();
+    }
+    class ResetPassword implements MouseListener{
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            String email = JOptionPane.showInputDialog(loginView,"Enter your email");
+            if(email.isEmpty()){
+                JOptionPane.showMessageDialog(loginView, "Email cannot be empty");
+            } else {
+                UserDao userDao = new UserDao();
+                boolean emailExists = userDao.checkEmail(email);
+                if (!emailExists){
+                    JOptionPane.showMessageDialog(loginView, "Email does not exists");
+                }else{
+                    String otp =  (""+Math.random()).substring(2);
+//                    SMTPSMailSender smtpSender = new SMTPSMailSender();
+                    String title = "Reset Password Verification";
+                    String body = " The otp to resetb your password is"+otp;
+                    boolean mailSent = SMTPSMailSender.sendMail(email,title,body);
+                    if (!mailSent){
+                        JOptionPane.showMessageDialog(loginView,"Failed to send OTP. Try again later.");
+                    }else{
+                        String otpReceived = JOptionPane.showInputDialog(loginView,"Enter your otp code");
+                        if(!otp.equals(otpReceived)){
+                            JOptionPane.showMessageDialog(loginView,"Otp did not match.");
+                        }else{
+                            String password = JOptionPane.showInputDialog(loginView, "Enter your new password");
+                            if(password.trim().isEmpty()){
+                                JOptionPane.showMessageDialog(loginView,"Password cannot be empty");
+                            }else{
+                                ResetPasswordRequest resetReq = new ResetPasswordRequest(email,password);
+                                boolean updateResult = userDao.resetPassword(resetReq);
+                                if(!updateResult){
+                                    JOptionPane.showMessageDialog(loginView, "Failed to reset password");
+                                } else{
+                                JOptionPane.showMessageDialog(loginView, "Password has been changed");
+                            }
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+        }
+        
     }
     class RegistrationListener implements MouseListener{
 
@@ -96,7 +161,6 @@ public class LoginController {
                     
                     JOptionPane.showMessageDialog(loginView, 
                         "Login Successfull");
-                    
                     if (user.isAdmin()) {
                         // Open Admin Panel
                         AdminMovies adminMovies = new AdminMovies(); 

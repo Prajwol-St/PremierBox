@@ -264,6 +264,10 @@ public class LoginView extends javax.swing.JFrame {
     public void showPasswordButtonListener(ActionListener listener){
         showPasswordButton.addActionListener(listener);
     }
+    public void forgotPassword(MouseListener listener){
+        forgotPasswordLabel.addMouseListener(listener);
+    }
+
 
 
 }
