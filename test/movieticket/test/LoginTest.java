@@ -28,6 +28,10 @@ public class LoginTest {
     public void testLoginWrongPassword(){
         assertFalse(login.login("user1","wrongpass"));
     }
+    @Test
+    public void testLoginUnknownUser(){
+        assertFalse(login.login("unkonwn","password123"));
+    }
 }
 
 class Login {
