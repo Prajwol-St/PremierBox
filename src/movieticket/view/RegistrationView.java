@@ -341,7 +341,7 @@ public class RegistrationView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNameFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNameFieldFocusGained
-        if (txtNameField.getText().equals("Email")) {
+        if (txtNameField.getText().equals("Name")) {
             txtNameField.setText("");
             txtNameField.setForeground(Color.BLACK);
         }        // TODO add your handling code here:
@@ -349,7 +349,7 @@ public class RegistrationView extends javax.swing.JFrame {
 
     private void txtNameFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNameFieldFocusLost
         if (txtNameField.getText().trim().isEmpty()) {
-            txtNameField.setText("Email");
+            txtNameField.setText("Name");
             txtNameField.setForeground(Color.GRAY);
         }        // TODO add your handling code here:
     }//GEN-LAST:event_txtNameFieldFocusLost
@@ -377,7 +377,7 @@ public class RegistrationView extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEmailFieldActionPerformed
 
     private void txtConfirmPasswordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtConfirmPasswordFieldFocusGained
-        if (txtConfirmPasswordField.getText().equals("Password")) {
+        if (txtConfirmPasswordField.getText().equals("Confirm Password")) {
             txtConfirmPasswordField.setText("");
             txtConfirmPasswordField.setForeground(Color.BLACK);
         }  // TODO add your handling code here:
@@ -385,7 +385,7 @@ public class RegistrationView extends javax.swing.JFrame {
 
     private void txtConfirmPasswordFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtConfirmPasswordFieldFocusLost
         if (txtConfirmPasswordField.getText().trim().isEmpty()) {
-            txtConfirmPasswordField.setText("Password");
+            txtConfirmPasswordField.setText("Confirm Password");
             txtConfirmPasswordField.setForeground(Color.GRAY);
         }   // TODO add your handling code here:
     }//GEN-LAST:event_txtConfirmPasswordFieldFocusLost
@@ -395,16 +395,16 @@ public class RegistrationView extends javax.swing.JFrame {
     }//GEN-LAST:event_txtConfirmPasswordFieldActionPerformed
 
     private void txtPasswordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordFieldFocusGained
-        if (txtConfirmPasswordField.getText().equals("Password")) {
-            txtConfirmPasswordField.setText("");
-            txtConfirmPasswordField.setForeground(Color.BLACK);
+        if (txtPasswordField.getText().equals("Password")) {
+            txtPasswordField.setText("");
+            txtPasswordField.setForeground(Color.BLACK);
         }  // TODO add your handling code here:
     }//GEN-LAST:event_txtPasswordFieldFocusGained
 
     private void txtPasswordFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordFieldFocusLost
-        if (txtConfirmPasswordField.getText().trim().isEmpty()) {
-            txtConfirmPasswordField.setText("Password");
-            txtConfirmPasswordField.setForeground(Color.GRAY);
+        if (txtPasswordField.getText().trim().isEmpty()) {
+            txtPasswordField.setText("Password");
+            txtPasswordField.setForeground(Color.GRAY);
         }   // TODO add your handling code here:
     }//GEN-LAST:event_txtPasswordFieldFocusLost
 
