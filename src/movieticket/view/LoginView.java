@@ -47,7 +47,7 @@ public class LoginView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(227, 227, 227));
         jPanel1.setLayout(null);
 
         LoginTitle.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N

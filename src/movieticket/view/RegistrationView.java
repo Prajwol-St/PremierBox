@@ -60,7 +60,6 @@ public class RegistrationView extends javax.swing.JFrame {
         ShowConfirmPasswordBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(770, 460));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 102));
@@ -143,7 +142,7 @@ public class RegistrationView extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 290, 460));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(227, 227, 227));
 
         SignupTitle.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         SignupTitle.setForeground(new java.awt.Color(0, 128, 102));
