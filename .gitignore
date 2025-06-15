@@ -1,5 +1,9 @@
 /dist/
+<<<<<<< HEAD
 /build/
 /nbproject/
 /PremierBox/nbproject/private/
 /src/PremierBox/nbproject/private/
+=======
+/build/
+>>>>>>> 6793dafcd63871107d5d16ec3395fcb6aabe13de
