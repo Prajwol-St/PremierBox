@@ -35,9 +35,11 @@ public class LoginController {
         this.loginView.forgotPassword(resetPass);
 
     }
-    public void open(){
-        this.loginView.setVisible(true);
-    }
+  public void open() {
+    this.loginView.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH); // maximize window
+    this.loginView.setVisible(true); // show window
+}
+
     public void close(){
         this.loginView.dispose();
     }

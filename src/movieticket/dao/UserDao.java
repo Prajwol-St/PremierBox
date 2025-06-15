@@ -12,6 +12,7 @@ import movieticket.database.MySqlConnection;
 import movieticket.model.LoginRequest;
 import movieticket.model.ResetPasswordRequest;
 import movieticket.model.UserData;
+import movieticket.model.SeatBooking;
 
 /**
  *
@@ -121,4 +122,33 @@ public class UserDao {
             mySql.closeConnection(conn);
         }
     }
+ 
+
+public boolean bookSeats(SeatBooking booking) {
+    Connection conn = mySql.openConnection();
+    String createTableSQL = "CREATE TABLE IF NOT EXISTS Bookings ("
+        + "booking_id INT AUTO_INCREMENT PRIMARY KEY, "
+        + "user_id INT NOT NULL, "
+        + "movie_id INT NOT NULL, "
+        + "seat_numbers VARCHAR(100) NOT NULL, "
+        + "booking_time DATETIME DEFAULT CURRENT_TIMESTAMP"
+        + ")";
+    String query = "INSERT INTO Bookings (user_id, movie_id, seat_numbers) VALUES (?, ?, ?)";
+    try {
+        PreparedStatement createtbl = conn.prepareStatement(createTableSQL);
+        createtbl.executeUpdate();
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setInt(1, booking.getUserId());
+        pstmt.setInt(2, booking.getMovieId());
+        pstmt.setString(3, booking.getSeatNumbers());
+        int result = pstmt.executeUpdate();
+        return result > 0;
+    } catch (SQLException ex) {
+        System.err.println("Error booking seats: " + ex.getMessage());
+        return false;
+    } finally {
+        mySql.closeConnection(conn);
+    }
+}
+
 }

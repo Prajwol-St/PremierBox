@@ -26,6 +26,7 @@ public class LoginView extends javax.swing.JFrame {
         setLayout(new BorderLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -268,6 +269,7 @@ public class LoginView extends javax.swing.JFrame {
     public void forgotPassword(MouseListener listener){
         forgotPasswordLabel.addMouseListener(listener);
     }
+    
 
 
 }
