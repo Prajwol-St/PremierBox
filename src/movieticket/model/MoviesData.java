@@ -1,6 +1,8 @@
 package movieticket.model;
 
 public class MoviesData {
+
+    public static Iterable<Movie> movieList;
     private int movie_id;
     private String title;
     private String genre;

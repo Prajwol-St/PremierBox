@@ -184,12 +184,12 @@ public class BrowseMovies extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(71, 71, 71)
                                 .addComponent(jLabel6)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(93, 93, 93)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,7 +197,7 @@ public class BrowseMovies extends javax.swing.JFrame {
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -299,7 +299,7 @@ public class BrowseMovies extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         pack();
@@ -329,7 +329,7 @@ public class BrowseMovies extends javax.swing.JFrame {
     this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_MovieName1MouseClicked
 
-    private void loadMoviePosters() {
+private void loadMoviePosters() {
     for (Movie movie : MoviesData.movieList) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -350,20 +350,56 @@ public class BrowseMovies extends javax.swing.JFrame {
         duration.setHorizontalAlignment(SwingConstants.CENTER);
 
         JButton time1 = new JButton("9:00 AM");
+        time1.setBackground(new Color(255, 51, 0));
+        
         JButton time2 = new JButton("10:00 AM");
+        time2.setBackground(new Color(0, 255, 0));
+        
+        // NEW: Add to Watchlist button
+        JButton watchlistBtn = new JButton("+ Add to Watchlist");
+        watchlistBtn.setBackground(new Color(255, 215, 0)); // Gold color
+        watchlistBtn.setForeground(Color.BLACK);
+        watchlistBtn.setFont(new Font("Segoe UI", Font.BOLD, 10));
+        
+        // Add action listener for watchlist button
+        watchlistBtn.addActionListener(e -> {
+            addToWatchlist(movie);
+            watchlistBtn.setText("✓ Added!");
+            watchlistBtn.setBackground(new Color(34, 139, 34)); // Green
+            watchlistBtn.setForeground(Color.WHITE);
+            watchlistBtn.setEnabled(false);
+        });
 
         panel.add(poster);
         panel.add(name);
         panel.add(duration);
-        panel.add(time1);
-        panel.add(time2);
+        
+        // Create button panel for better layout
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(51, 51, 51));
+        buttonPanel.add(time1);
+        buttonPanel.add(time2);
+        
+        panel.add(buttonPanel);
+        panel.add(watchlistBtn); // Add watchlist button
 
         getContentPane().add(panel); // Or add to a scrollable movie container
     }
     revalidate();
     repaint();
 }
-
+// NEW: Method to handle adding movies to watchlist
+private void addToWatchlist(Movie movie) {
+    // TODO: This will connect to your database layer later
+    // For now, we'll just show a message
+    javax.swing.JOptionPane.showMessageDialog(this, 
+        "'" + movie.getTitle() + "' added to your watchlist!", 
+        "Watchlist", 
+        javax.swing.JOptionPane.INFORMATION_MESSAGE);
+    
+    // Later this will call something like:
+    // WatchlistController.addToWatchlist(currentUser.getId(), movie.getId());
+}
     /**
      * @param args the command line arguments
      */
