@@ -28,6 +28,7 @@ public class AddMoviesController {
     
     DashboardView dashboardView;
     private final CRUDAdminDAO adminDAO = new CRUDAdminDAO();
+    private int selectedMovieId = -1;
     
     public AddMoviesController(DashboardView dashboardView){
         this.dashboardView = dashboardView;
@@ -36,6 +37,29 @@ public class AddMoviesController {
         
          // Load movies when controller initializes
         loadMoviesToTable();
+        
+        // Add table selection listener
+        dashboardView.getMovieTable().getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow =  dashboardView.getMovieTable().getSelectedRow();
+                if (selectedRow >= 0) {
+                    DefaultTableModel model = (DefaultTableModel)  dashboardView.getMovieTable().getModel();
+                    selectedMovieId = (int) model.getValueAt(selectedRow, 0);
+                    try {
+                        MoviesData movie = adminDAO.getMovieById(selectedMovieId);
+                        if (movie != null) {
+                             dashboardView.getMovieTitle().setText(movie.getTitle());
+                             dashboardView.getGenre().setText(movie.getGenre());
+                             dashboardView.getDuration().setText(movie.getDuration());
+                             dashboardView.getPublishedDate().setText(movie.getDate());
+                        }
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(dashboardView, "Error loading movie details: " + ex.getMessage(), 
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
 }
     
     
@@ -76,7 +100,7 @@ System.out.println("here1: "+title+ genre+ duration+ Date);
                     JOptionPane.showMessageDialog(dashboardView, 
                             "Movie added successfully!", "Success", 
                             JOptionPane.INFORMATION_MESSAGE);
-//                    clearFields();
+                    clearFields();
                     loadMoviesToTable();
                 } else {
                     JOptionPane.showMessageDialog(dashboardView, 
@@ -92,7 +116,7 @@ System.out.println("here1: "+title+ genre+ duration+ Date);
         
     }
     
-    
+//    Load datas to table in add movies section
        private void loadMoviesToTable() {
         try {
             List<MoviesData> movies = adminDAO.getAllMovies();
@@ -114,7 +138,13 @@ System.out.println("here1: "+title+ genre+ duration+ Date);
         }
     }
     
-    
+     private void clearFields() {
+        dashboardView.getMovieTitle().setText("");
+         dashboardView.getGenre().setText("");
+         dashboardView.getDuration().setText("");
+         dashboardView.getPublishedDate().setText("");
+//         dashboardView.setSelectedFile(null);
+    }
     
     
     

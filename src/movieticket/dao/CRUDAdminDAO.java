@@ -96,4 +96,32 @@ public class CRUDAdminDAO {
         }
         return movies;
     }
+     
+     public MoviesData getMovieById(int movieId) throws SQLException {
+        Connection conn = mySql.openConnection();
+        String query = "SELECT * FROM Movie WHERE movie_id=?";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, movieId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new MoviesData(
+                            
+                        rs.getInt("movie_id"),
+                        rs.getString("title"),
+                        rs.getString("genre"),
+                        rs.getString("duration"),
+                        rs.getString("datee"),
+                        null
+                       );
+                }
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error getting movie by ID: " + ex.getMessage());
+            throw ex;
+        } finally {
+            mySql.closeConnection(conn);
+        }
+        return null;
+    }
 }
