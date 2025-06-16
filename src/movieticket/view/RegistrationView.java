@@ -102,11 +102,6 @@ public class RegistrationView extends javax.swing.JFrame {
         uploadImageButton.setForeground(new java.awt.Color(255, 255, 255));
         uploadImageButton.setText("Upload Image");
         uploadImageButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 255), 1, true));
-        uploadImageButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uploadImageButtonActionPerformed(evt);
-            }
-        });
 
         showPasswordButton.setBackground(new java.awt.Color(0, 0, 0));
         showPasswordButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -117,11 +112,6 @@ public class RegistrationView extends javax.swing.JFrame {
         registerButton.setForeground(new java.awt.Color(255, 255, 255));
         registerButton.setText("Register");
         registerButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 1, true));
-        registerButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registerButtonActionPerformed(evt);
-            }
-        });
 
         noAccountLabel.setBackground(new java.awt.Color(0, 153, 153));
         noAccountLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
@@ -131,7 +121,7 @@ public class RegistrationView extends javax.swing.JFrame {
 
         loginLabel.setBackground(new java.awt.Color(0, 153, 153));
         loginLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        loginLabel.setForeground(new java.awt.Color(204, 0, 51));
+        loginLabel.setForeground(new java.awt.Color(255, 255, 255));
         loginLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         loginLabel.setText("Login");
 
@@ -217,7 +207,10 @@ public class RegistrationView extends javax.swing.JFrame {
                     .addContainerGap(48, Short.MAX_VALUE)))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 560, 410));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, 560, 410));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Hp\\Documents\\back.png")); // NOI18N
+        jLabel1.setOpaque(true);
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();

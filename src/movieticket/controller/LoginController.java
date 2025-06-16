@@ -170,6 +170,7 @@ public class LoginController {
                         // Open User Dashboard
                         DashboardView dashboardView = new DashboardView();
                         DashboardController dashboardController = new DashboardController(dashboardView);
+                        AddMoviesController addmoviescontroller= new  AddMoviesController(dashboardView);
                         dashboardController.open();
                     }
                     
