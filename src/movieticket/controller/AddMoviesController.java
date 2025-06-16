@@ -7,8 +7,11 @@ import javax.swing.JOptionPane;
 import movieticket.dao.CRUDAdminDAO;
 import movieticket.model.MovieData;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import movieticket.model.MoviesData;
 
 import movieticket.view.DashboardView;
 
@@ -30,6 +33,9 @@ public class AddMoviesController {
         this.dashboardView = dashboardView;
         
         dashboardView.insertMoviesListener(new InsertMovieListener());
+        
+         // Load movies when controller initializes
+        loadMoviesToTable();
 }
     
     
@@ -42,6 +48,8 @@ public class AddMoviesController {
             String duration =  dashboardView.getDuration().getText().trim();           
             String Date =  dashboardView.getPublishedDate().getText().trim();
 //            File image =  dashboardView.getSelectedFile();
+
+
 
 System.out.println("here1: "+title+ genre+ duration+ Date);
             
@@ -69,7 +77,7 @@ System.out.println("here1: "+title+ genre+ duration+ Date);
                             "Movie added successfully!", "Success", 
                             JOptionPane.INFORMATION_MESSAGE);
 //                    clearFields();
-//                    loadMoviesToTable();
+                    loadMoviesToTable();
                 } else {
                     JOptionPane.showMessageDialog(dashboardView, 
                             "Failed to add movie.", "Error", 
@@ -85,6 +93,26 @@ System.out.println("here1: "+title+ genre+ duration+ Date);
     }
     
     
+       private void loadMoviesToTable() {
+        try {
+            List<MoviesData> movies = adminDAO.getAllMovies();
+            DefaultTableModel model = (DefaultTableModel) dashboardView.getMovieTable().getModel();
+            model.setRowCount(0); // Clear existing data
+            
+            for (MoviesData movie : movies) {
+                model.addRow(new Object[]{
+                    movie.getMovie_id(),
+                    movie.getTitle(),
+                    movie.getGenre(),
+                    movie.getDuration(),
+                    movie.getDate()
+                });
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(dashboardView, "Error loading movies: " + ex.getMessage(), 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
     
     

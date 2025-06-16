@@ -6,9 +6,13 @@ package movieticket.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import movieticket.database.MySqlConnection;
 import movieticket.model.MovieData;
+import movieticket.model.MoviesData;
 
 /**
  *
@@ -63,5 +67,33 @@ public class CRUDAdminDAO {
         }
          
          
+    }
+    
+     public List<MoviesData> getAllMovies() throws SQLException {
+        Connection conn = mySql.openConnection();
+        List<MoviesData> movies = new ArrayList<>();
+        String query = "SELECT movie_id, title, genre, duration, datee FROM Movie";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+            
+            while (rs.next()) {
+                MoviesData movie = new MoviesData(
+                    rs.getInt("movie_id"),
+                    rs.getString("title"),
+                    rs.getString("genre"),
+                    rs.getString("duration"),
+                    rs.getString("datee"),
+                    null // We don't load the poster for the list view
+                );
+                movies.add(movie);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error getting all movies: " + ex.getMessage());
+            throw ex;
+        } finally {
+            mySql.closeConnection(conn);
+        }
+        return movies;
     }
 }
