@@ -631,6 +631,7 @@ public class DashboardView extends javax.swing.JFrame {
 
         jPanel9.setPreferredSize(new java.awt.Dimension(190, 154));
 
+        jPanel11.setBackground(new java.awt.Color(153, 0, 153));
         jPanel11.setPreferredSize(new java.awt.Dimension(190, 154));
 
         jLabel14.setText("Movie Title:");
