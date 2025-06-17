@@ -25,17 +25,17 @@ public class UserDao {
         Connection conn= mySql.openConnection();
         
         
-         String createTableSQL = "CREATE TABLE IF NOT EXISTS user_system ("
+         String createTableSQL = "CREATE TABLE IF NOT EXISTS demoUserss ("
             + "id INT AUTO_INCREMENT PRIMARY KEY, "               
             + "name VARCHAR(50) NOT NULL, "
             + "email VARCHAR(100) UNIQUE NOT NULL, "
             + "password VARCHAR(255) NOT NULL, "
-            + "image BLOB NOT NULL,"
+            + "image LONGBLOB NOT NULL,"
             + "isAdmin BOOLEAN DEFAULT FALSE"
             + ")";
          
          
-         String query=  "INSERT INTO user_system (name, email, password,image, isAdmin) VALUES (?, ?, ?,?,?)";
+         String query=  "INSERT INTO demoUserss (name, email, password,image, isAdmin) VALUES (?, ?, ?,?,?)";
          
         try {
             PreparedStatement createtbl= conn.prepareStatement(createTableSQL);
@@ -70,7 +70,7 @@ public class UserDao {
     
     public UserData loginUser(LoginRequest loginData){
         Connection conn = mySql.openConnection();
-        String sql = "SELECT * FROM user_system where email = ?";
+        String sql = "SELECT * FROM demoUserss where email = ?";
         
         
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -125,7 +125,7 @@ public class UserDao {
     
     public boolean resetPassword(ResetPasswordRequest resetReq){
 //        step1 : write a query in string
-        String query = "UPDATE user_system SET password = ? WHERE email=?";
+        String query = "UPDATE demoUserss SET password = ? WHERE email=?";
 //         open connection
         Connection conn = mySql.openConnection();
         try{

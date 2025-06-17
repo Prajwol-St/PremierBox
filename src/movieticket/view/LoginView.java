@@ -45,9 +45,12 @@ public class LoginView extends javax.swing.JFrame {
         SignUpBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setSize(new java.awt.Dimension(1920, 1080));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(227, 227, 227));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1920, 1080));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1920, 1080));
         jPanel1.setLayout(null);
 
         LoginTitle.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
@@ -113,9 +116,9 @@ public class LoginView extends javax.swing.JFrame {
         jPanel1.add(LogInBtn);
         LogInBtn.setBounds(160, 290, 100, 40);
 
-        AppLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/clap.png"))); // NOI18N
+        AppLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo.png"))); // NOI18N
         jPanel1.add(AppLogo);
-        AppLogo.setBounds(0, 0, 64, 64);
+        AppLogo.setBounds(0, 0, 70, 70);
 
         AppName.setFont(new java.awt.Font("Segoe UI Semibold", 1, 23)); // NOI18N
         AppName.setForeground(new java.awt.Color(255, 51, 51));
@@ -153,10 +156,11 @@ public class LoginView extends javax.swing.JFrame {
         jPanel1.add(ShowPasswordBtn);
         ShowPasswordBtn.setBounds(360, 210, 50, 30);
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 460));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 490, 490));
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 102));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.setMinimumSize(new java.awt.Dimension(1920, 1080));
         jPanel2.setLayout(null);
 
         SignUpHead.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
@@ -164,14 +168,14 @@ public class LoginView extends javax.swing.JFrame {
         SignUpHead.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         SignUpHead.setText("Don't have an account?");
         jPanel2.add(SignUpHead);
-        SignUpHead.setBounds(40, 100, 290, 60);
+        SignUpHead.setBounds(20, 100, 290, 60);
 
         SignUpsub1.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         SignUpsub1.setForeground(new java.awt.Color(204, 204, 204));
         SignUpsub1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         SignUpsub1.setText("Enter your personal details");
         jPanel2.add(SignUpsub1);
-        SignUpsub1.setBounds(80, 170, 190, 20);
+        SignUpsub1.setBounds(70, 170, 190, 20);
 
         SignUpsub2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         SignUpsub2.setForeground(new java.awt.Color(204, 204, 204));
@@ -192,7 +196,7 @@ public class LoginView extends javax.swing.JFrame {
         jPanel2.add(SignUpBtn);
         SignUpBtn.setBounds(130, 250, 100, 40);
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 0, 350, 460));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 0, 370, 490));
 
         pack();
         setLocationRelativeTo(null);
