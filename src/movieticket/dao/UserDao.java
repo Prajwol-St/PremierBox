@@ -105,7 +105,7 @@ public class UserDao {
     }
 
        public boolean checkEmail(String email){
-        String query = "SELECT * FROM user_system where email = ?";
+        String query = "SELECT * FROM demoUserss where email = ?";
         Connection conn = mySql.openConnection();
         try{
             PreparedStatement stmnt = conn.prepareStatement(query);
