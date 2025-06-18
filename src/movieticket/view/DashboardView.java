@@ -1549,6 +1549,10 @@ public class DashboardView extends javax.swing.JFrame {
         importButton.addActionListener(listener);
     }
     
+      
+    public void deleteMovieListener(ActionListener listener) {
+        deleteButton.addActionListener(listener);
+    }
     
     
      public javax.swing.JTextField getMovieTitle(){

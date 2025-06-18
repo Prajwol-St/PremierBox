@@ -41,6 +41,7 @@ public class AddMoviesController {
         dashboardView.importMovieListener (new ImportMovieListener());
         dashboardView.insertMoviesListener(new InsertMovieListener());
         dashboardView.updateMoviesListener(new UpdateMoviesListener());
+        dashboardView.deleteMovieListener(new DeleteMovieListener());
         
          // Load movies when controller initializes
         loadMoviesToTable();
@@ -205,6 +206,49 @@ public class AddMoviesController {
                         JOptionPane.ERROR_MESSAGE);
             }
         }
+       
+   }
+   
+   public class DeleteMovieListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+         if (selectedMovieId == -1) {
+                JOptionPane.showMessageDialog(dashboardView, 
+                        "Please select a movie to delete.", "Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            int confirm = JOptionPane.showConfirmDialog(dashboardView, 
+                    "Are you sure you want to delete this movie?", "Confirm Delete", 
+                    JOptionPane.YES_NO_OPTION);
+            
+            if (confirm == JOptionPane.YES_OPTION) {
+                try {
+                    boolean result = adminDAO.deleteMovie(selectedMovieId);
+                    
+                    if (result) {
+                        JOptionPane.showMessageDialog(dashboardView, 
+                                "Movie deleted successfully!", "Success", 
+                                JOptionPane.INFORMATION_MESSAGE);
+                        clearFields();
+                        loadMoviesToTable();
+                        selectedMovieId = -1;
+                    } else {
+                        JOptionPane.showMessageDialog(dashboardView, 
+                                "Failed to delete movie.", "Error", 
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(dashboardView, 
+                            "Error: " + ex.getMessage(), "Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        
+        }
+          
        
    }
     

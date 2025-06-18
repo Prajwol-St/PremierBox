@@ -103,6 +103,22 @@ public class CRUDAdminDAO {
         }
     }
      
+    public boolean deleteMovie(int movieId) throws SQLException {
+        Connection conn = mySql.openConnection();
+        String query = "DELETE FROM Movies WHERE movie_id=?";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, movieId);
+            int result = pstmt.executeUpdate();
+            return result > 0;
+        } catch (SQLException ex) {
+            System.err.println("Error deleting movie: " + ex.getMessage());
+            throw ex;
+        } finally {
+            mySql.closeConnection(conn);
+        }
+    }
+     
      
      public List<MoviesData> getAllMovies() throws SQLException {
         Connection conn = mySql.openConnection();
