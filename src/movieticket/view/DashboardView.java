@@ -1544,6 +1544,10 @@ public class DashboardView extends javax.swing.JFrame {
         deleteButton.addActionListener(listener);
     }
     
+    public void logoutMovieListener(ActionListener listener){
+        logoutButton.addActionListener(listener);
+    }
+    
     
      public javax.swing.JTextField getMovieTitle(){
          return movieTitleField;

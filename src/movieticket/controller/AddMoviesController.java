@@ -18,6 +18,7 @@ import movieticket.model.MoviesData;
 import movieticket.model.UserData;
 
 import movieticket.view.DashboardView;
+import movieticket.view.EntryView;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -42,6 +43,7 @@ public class AddMoviesController {
         dashboardView.insertMoviesListener(new InsertMovieListener());
         dashboardView.updateMoviesListener(new UpdateMoviesListener());
         dashboardView.deleteMovieListener(new DeleteMovieListener());
+        dashboardView.logoutMovieListener(new LogoutMovieListener());
         
          // Load movies when controller initializes
         loadMoviesToTable();
@@ -251,6 +253,22 @@ public class AddMoviesController {
           
        
    }
+   
+//   Logout admin dashboardView
+   public class LogoutMovieListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        
+        EntryView entryView = new EntryView();
+        EntryController entryController = new EntryController(entryView);
+        entryController.open();
+        close();
+        
+        }
+        
+       
+   }
     
 //    Load datas to table in add movies section
        private void loadMoviesToTable() {
@@ -283,6 +301,12 @@ public class AddMoviesController {
     }
     
     
+ public void open(){
+        this.dashboardView.setVisible(true);
+    }
+    public void close(){
+        this.dashboardView.dispose();
+    }
     
     
 }
