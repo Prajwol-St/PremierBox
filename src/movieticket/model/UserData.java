@@ -21,7 +21,6 @@ public class UserData {
         this.password=password;
         this.image=image;
     }
-    
     public UserData(int id,String name,String email, String password, byte[] image){
         this.id=id;
         this.name= name;

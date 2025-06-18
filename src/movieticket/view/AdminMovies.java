@@ -356,6 +356,7 @@ public class AdminMovies extends javax.swing.JFrame {
 
     
     
+    
     public javax.swing.JTable getMovieTable() {
         return movieTable;
     }
