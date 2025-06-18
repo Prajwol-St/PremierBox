@@ -3,26 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/view/RegistrationView.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/view/LoginView.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/view/EntryView.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/model/UserData.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/dao/UserDao.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/controller/mail/SMTPSMailSender.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/model/ResetPasswordRequest.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/controller/LoginController.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/database/DbConnection.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/database/MySqlConnection.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/controller/RegistrationController.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/model/MoviesData.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/controller/EntryController.java</file>
             <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/controller/DashboardController.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/controller/AdminMoviesController.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/view/DashboardView.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/view/BrowseMovies.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/view/AdminMovies.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/model/Movie.java</file>
-            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/model/LoginRequest.java</file>
         </group>
     </open-files>
 </project-private>

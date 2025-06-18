@@ -38,7 +38,6 @@ public class LoginView extends javax.swing.JFrame {
         LogInSubtitle = new javax.swing.JLabel();
         ForgotPassword = new javax.swing.JLabel();
         ShowPasswordBtn = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         SignUpHead = new javax.swing.JLabel();
         SignUpsub1 = new javax.swing.JLabel();
@@ -157,13 +156,7 @@ public class LoginView extends javax.swing.JFrame {
         jPanel1.add(ShowPasswordBtn);
         ShowPasswordBtn.setBounds(360, 210, 50, 30);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Backg.jpg"))); // NOI18N
-        jLabel1.setText("jLabel1");
-        jLabel1.setOpaque(true);
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(0, 0, 500, 480);
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 480));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 480));
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 102));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -203,7 +196,7 @@ public class LoginView extends javax.swing.JFrame {
         jPanel2.add(SignUpBtn);
         SignUpBtn.setBounds(130, 250, 100, 40);
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 340, 480));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 0, 360, 480));
 
         pack();
         setLocationRelativeTo(null);
@@ -327,7 +320,6 @@ public class LoginView extends javax.swing.JFrame {
     private javax.swing.JLabel SignUpHead;
     private javax.swing.JLabel SignUpsub1;
     private javax.swing.JLabel SignUpsub2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField txtEmailField;
