@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import javax.swing.JOptionPane;
 import movieticket.dao.CRUDAdminDAO;
-import movieticket.model.MovieData;
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;

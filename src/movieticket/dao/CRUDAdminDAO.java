@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import movieticket.database.MySqlConnection;
-import movieticket.model.MovieData;
+
 import movieticket.model.MoviesData;
 
 /**
