@@ -5,18 +5,35 @@
 package movieticket.view;
 
 import java.awt.event.ActionListener;
+import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Hp
  */
 public class DashboardView extends javax.swing.JFrame {
+     DefaultTableModel tableModel;
+     File selectedFile;
+
 
   
     public DashboardView() {
-        initComponents();
+       initComponents();
+        
+        String[] columns = {"ID", "Movie Title", "Genre", "Duration", "Date"};
+        tableModel = new DefaultTableModel(columns, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make table cells non-editable
+            }
+        };
+        movieTable.setModel(tableModel);
+        movieTable.getColumnModel().getColumn(0).setMinWidth(0); // Hide ID column
+        movieTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        movieTable.getColumnModel().getColumn(0).setWidth(0);
     }
 
     /**
@@ -66,7 +83,7 @@ public class DashboardView extends javax.swing.JFrame {
         clearButton = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        movieDataTable = new javax.swing.JTable();
+        movieTable = new javax.swing.JTable();
         jTextField5 = new javax.swing.JTextField();
         availableMovies = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -546,7 +563,7 @@ public class DashboardView extends javax.swing.JFrame {
                 .addContainerGap(92, Short.MAX_VALUE))
         );
 
-        movieDataTable.setModel(new javax.swing.table.DefaultTableModel(
+        movieTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -557,12 +574,12 @@ public class DashboardView extends javax.swing.JFrame {
                 "Movies title", "Genre", "Duration", "Published Date"
             }
         ));
-        jScrollPane1.setViewportView(movieDataTable);
-        if (movieDataTable.getColumnModel().getColumnCount() > 0) {
-            movieDataTable.getColumnModel().getColumn(0).setHeaderValue("Movies title");
-            movieDataTable.getColumnModel().getColumn(1).setHeaderValue("Genre");
-            movieDataTable.getColumnModel().getColumn(2).setHeaderValue("Duration");
-            movieDataTable.getColumnModel().getColumn(3).setHeaderValue("Published Date");
+        jScrollPane1.setViewportView(movieTable);
+        if (movieTable.getColumnModel().getColumnCount() > 0) {
+            movieTable.getColumnModel().getColumn(0).setHeaderValue("Movies title");
+            movieTable.getColumnModel().getColumn(1).setHeaderValue("Genre");
+            movieTable.getColumnModel().getColumn(2).setHeaderValue("Duration");
+            movieTable.getColumnModel().getColumn(3).setHeaderValue("Published Date");
         }
 
         jTextField5.setText("Search");
@@ -1471,7 +1488,7 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JButton logoutButton;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JTable movieDataTable;
+    private javax.swing.JTable movieTable;
     private javax.swing.JTextField movieTitleField;
     private javax.swing.JTextField publishedDateField;
     private javax.swing.JButton updateButton;
@@ -1481,7 +1498,7 @@ public class DashboardView extends javax.swing.JFrame {
     
      
     public javax.swing.JTable getMovieTable() {
-        return movieDataTable;
+        return movieTable;
     }
 
     
@@ -1523,6 +1540,14 @@ public class DashboardView extends javax.swing.JFrame {
      public void insertMoviesListener(ActionListener listener) {
         insertButton.addActionListener(listener);
     }
+     
+     public void updateMoviesListener(ActionListener listener) {
+        updateButton.addActionListener(listener);
+    }
+     
+      public void importMovieListener(ActionListener listener) {
+        importButton.addActionListener(listener);
+    }
     
     
     
@@ -1541,6 +1566,14 @@ public class DashboardView extends javax.swing.JFrame {
      public javax.swing.JTextField getPublishedDate(){
          return publishedDateField;
      }
+     
+      public void setSelectedFile(File file) {
+        this.selectedFile = file;
+    }
+    
+    public File getSelectedFile() {
+        return selectedFile;
+    }
      
      
      
