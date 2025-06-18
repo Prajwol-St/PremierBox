@@ -260,11 +260,19 @@ public class AddMoviesController {
         @Override
         public void actionPerformed(ActionEvent e) {
         
-        EntryView entryView = new EntryView();
-        EntryController entryController = new EntryController(entryView);
-        entryController.open();
-        close();
-        
+         int choice = JOptionPane.showConfirmDialog(
+                dashboardView,                       // parent component
+                "Are you sure you want to log out?",  // message
+                "Confirm Logout",                // dialog title
+                JOptionPane.YES_NO_OPTION,       // two buttons
+                JOptionPane.QUESTION_MESSAGE);   // question-mark icon
+
+        if (choice == JOptionPane.YES_OPTION) {  // user clicked “Yes”
+            EntryView entryView = new EntryView();          // open login
+            EntryController entryController = new EntryController(entryView);
+            entryController.open();
+            close();            // close the admin window
+        }
         }
         
        
