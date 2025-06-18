@@ -590,11 +590,9 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                   <Component id="deleteButton" min="-2" pref="94" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="clearButton" min="-2" pref="94" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="99" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -631,10 +629,7 @@
                               <Component id="insertButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="deleteButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="clearButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="deleteButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="92" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -743,17 +738,6 @@
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Delete"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JButton" name="clearButton">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="0" green="33" red="99" type="rgb"/>
-                    </Property>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Clear"/>
                   </Properties>
                 </Component>
               </SubComponents>

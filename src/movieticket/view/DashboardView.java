@@ -80,7 +80,6 @@ public class DashboardView extends javax.swing.JFrame {
         insertButton = new javax.swing.JButton();
         updateButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        clearButton = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         movieTable = new javax.swing.JTable();
@@ -479,10 +478,6 @@ public class DashboardView extends javax.swing.JFrame {
         deleteButton.setForeground(new java.awt.Color(255, 255, 255));
         deleteButton.setText("Delete");
 
-        clearButton.setBackground(new java.awt.Color(153, 51, 0));
-        clearButton.setForeground(new java.awt.Color(255, 255, 255));
-        clearButton.setText("Clear");
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -524,10 +519,8 @@ public class DashboardView extends javax.swing.JFrame {
                         .addComponent(importButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -557,9 +550,7 @@ public class DashboardView extends javax.swing.JFrame {
                     .addComponent(updateButton)
                     .addComponent(insertButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(deleteButton)
-                    .addComponent(clearButton))
+                .addComponent(deleteButton)
                 .addContainerGap(92, Short.MAX_VALUE))
         );
 
@@ -1396,7 +1387,6 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JPanel availableMovies;
     private javax.swing.JButton availableMoviesButton;
     private javax.swing.JPanel cardPanel;
-    private javax.swing.JButton clearButton;
     private javax.swing.JPanel customer;
     private javax.swing.JButton customersButton;
     private javax.swing.JPanel dashboard;
