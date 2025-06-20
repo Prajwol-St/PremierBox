@@ -1,7 +1,9 @@
 package movieticket.controller;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,7 +14,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import movieticket.model.MoviesData;
 import movieticket.model.UserData;
@@ -79,26 +85,37 @@ public class AddMoviesController {
         @Override
         public void actionPerformed(ActionEvent e) {
         
-         JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showOpenDialog(dashboardView);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-                if (file.exists() && file.isFile()) {
-                    dashboardView.setSelectedFile(file);
-                    JOptionPane.showMessageDialog(dashboardView, 
-                            "Image selected successfully: " + file.getName(),
-                            "Success", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(dashboardView,
-                        "Invalid file selected.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
+          JFileChooser fc = new JFileChooser();
+        if (fc.showOpenDialog(dashboardView) != JFileChooser.APPROVE_OPTION) return;
+
+        File file = fc.getSelectedFile();
+        if (file == null || !file.isFile()) {
+            JOptionPane.showMessageDialog(dashboardView,"Invalid file.","Error",
+                                          JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        dashboardView.setSelectedFile(file);          // your existing setter
+
+        /* ------- display poster in jPanel8 --------------------- */
+        try {
+            BufferedImage img = ImageIO.read(file);                 // load pixels[3]
+            JLabel lbl       = dashboardView.getPosterLabel();               // the JLabel
+            int w = lbl.getWidth(), h = lbl.getHeight();
+            Image scaled = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+            lbl.setIcon(new ImageIcon(scaled));                     // show it[4][6]
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(dashboardView, ex.getMessage(),
+                     "Cannot read image", JOptionPane.ERROR_MESSAGE);
+        }
+ 
         
         }
        
         
     }
+    
+  
     
    
     
