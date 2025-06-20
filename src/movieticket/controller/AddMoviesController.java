@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -68,6 +69,9 @@ public class AddMoviesController {
                              dashboardView.getGenre().setText(movie.getGenre());
                              dashboardView.getDuration().setText(movie.getDuration());
                              dashboardView.getPublishedDate().setText(movie.getDate());
+                             
+                             showPoster(movie.getPosterPath()); 
+                               
                         }
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(dashboardView, "Error loading movie details: " + ex.getMessage(), 
@@ -115,7 +119,31 @@ public class AddMoviesController {
         
     }
     
+  private void showPoster(byte[] bytes) {
+        JLabel lbl = dashboardView.getPosterLabel();      // make sure this returns JLabel
+        if (bytes == null || bytes.length == 0) {
+            lbl.setIcon(null);
+            lbl.setText("No image");
+            return;
+        }
+        try (ByteArrayInputStream in = new ByteArrayInputStream(bytes)) {
+            BufferedImage img = ImageIO.read(in);
+            if (img == null) throw new IllegalArgumentException("Not an image");
+            Image scaled = img.getScaledInstance(
+                    lbl.getWidth(), lbl.getHeight(), Image.SCALE_SMOOTH);
+            lbl.setText("");
+            lbl.setIcon(new ImageIcon(scaled));
+        } catch (Exception ex) {
+            lbl.setIcon(null);
+            lbl.setText("No image");
+        }
+    }
+
   
+    
+     
+
+
     
    
     
