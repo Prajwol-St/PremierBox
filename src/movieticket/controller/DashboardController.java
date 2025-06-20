@@ -4,6 +4,8 @@
  */
 package movieticket.controller;
 
+import java.awt.CardLayout;
+import javax.swing.JButton;
 import movieticket.view.DashboardView;
 
 /**
@@ -12,20 +14,33 @@ import movieticket.view.DashboardView;
  */
 public class DashboardController {
     DashboardView dashboardView;
+      private final CardLayout      cards; 
+      
     public DashboardController(DashboardView dashboardView){
         this.dashboardView=dashboardView;
+        this.cards = (CardLayout)dashboardView.getCardPanel().getLayout();
+        wire();
         
         
-//        JPanel mainPanel = dashboardView.getmainPanel();
-        
-        
-//    dashboardView.jbtnMovies().addActionListener(e -> {
-//        dashboardView.getmainPanel().removeAll();
-//        dashboardView.getmainPanel().add(new MoviePanel());
-//        dashboardView.getmainPanel().revalidate();
-//        dashboardView.getmainPanel().repaint();
-//});
+
+
     }
+    
+     private void wire() {
+        map(dashboardView.getDashboard(),    "dashboard");
+        map(dashboardView.getAddMovies() , "addMovies");
+        map(dashboardView.getAvailableMovies(),"availableMovies");
+        map(dashboardView.getEditScreening(),"edit");
+        map(dashboardView.getCustomer(),"customer");
+    }
+     
+       private void map(JButton b, String card) {
+        b.addActionListener(e -> cards.show(dashboardView.getCardPanel(), card)); // swap[5]
+    }
+    
+    
+    
+    
     public void open(){
         this.dashboardView.setVisible(true);
     }
