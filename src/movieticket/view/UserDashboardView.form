@@ -65,8 +65,8 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="dashboardButton1" alignment="0" max="32767" attributes="0"/>
-                      <Component id="availableMoviesButton" alignment="0" pref="130" max="32767" attributes="0"/>
+                      <Component id="userDashboardButton" alignment="0" max="32767" attributes="0"/>
+                      <Component id="userAvailableMoviesButton" alignment="0" pref="130" max="32767" attributes="0"/>
                       <Component id="logoutButton" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="21" max="32767" attributes="0"/>
@@ -77,9 +77,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="220" max="-2" attributes="0"/>
-                  <Component id="dashboardButton1" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="userDashboardButton" min="-2" pref="33" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="availableMoviesButton" min="-2" pref="31" max="-2" attributes="0"/>
+                  <Component id="userAvailableMoviesButton" min="-2" pref="31" max="-2" attributes="0"/>
                   <EmptySpace pref="246" max="32767" attributes="0"/>
                   <Component id="logoutButton" min="-2" pref="33" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
@@ -88,7 +88,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="dashboardButton1">
+        <Component class="javax.swing.JButton" name="userDashboardButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
@@ -109,10 +109,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dashboardButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userDashboardButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="availableMoviesButton">
+        <Component class="javax.swing.JButton" name="userAvailableMoviesButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
@@ -133,7 +133,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="availableMoviesButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userAvailableMoviesButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="logoutButton">
@@ -169,7 +169,7 @@
         <Container class="javax.swing.JPanel" name="UserDashboard">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
-              <CardConstraints cardName="card2"/>
+              <CardConstraints cardName="UserDashboard"/>
             </Constraint>
           </Constraints>
 
@@ -210,7 +210,7 @@
         <Container class="javax.swing.JPanel" name="AvailableMovies">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
-              <CardConstraints cardName="card3"/>
+              <CardConstraints cardName="AvailableMovies"/>
             </Constraint>
           </Constraints>
 
