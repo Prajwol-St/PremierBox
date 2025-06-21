@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import movieticket.dao.CRUDAdminDAO;
+import movieticket.dao.UserDao;
 import movieticket.model.MoviesData;
 import movieticket.view.components.MovieCard;
     
@@ -20,31 +21,38 @@ import movieticket.view.components.MovieCard;
  * @author Hp
  */
 public class UserDashboardView extends javax.swing.JFrame {
+    private int userId;
 
     /**
      * Creates new form UserDashboardView
      */
-    public UserDashboardView() {
-        initComponents();
-    }
-     private void displayAvailableMovies() {
-        AvailableMovies.removeAll(); // Clear previous content
-        AvailableMovies.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20)); // Card style layout
+    public UserDashboardView(int userId) {
+    this.userId = userId;
+    initComponents();
+}
 
-        CRUDAdminDAO dao = new CRUDAdminDAO();
-        try {
-            java.util.List<MoviesData> movies = dao.getAllMoviesWithImages();
-            for (MoviesData movie : movies) {
-                MovieCard card = new MovieCard(movie);
-                AvailableMovies.add(card);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Failed to load movies.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    private UserDao userDao = new UserDao();
 
-        AvailableMovies.revalidate();
-        AvailableMovies.repaint();
+private void displayAvailableMovies() {
+    AvailableMovies.removeAll();
+    AvailableMovies.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+    CRUDAdminDAO dao = new CRUDAdminDAO();
+    try {
+        java.util.List<MoviesData> movies = dao.getAllMoviesWithImages();
+        for (MoviesData movie : movies) {
+    MovieCard card = new MovieCard(movie, this, userDao, userId);
+    AvailableMovies.add(card);
+}
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Failed to load movies.", "Error", JOptionPane.ERROR_MESSAGE);
     }
+    AvailableMovies.revalidate();
+    AvailableMovies.repaint();
+}
+
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -249,7 +257,9 @@ public class UserDashboardView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UserDashboardView().setVisible(true);
+                // Replace 1 with the actual logged-in user's ID in real usage
+                new UserDashboardView(1).setVisible(true);
+
             }
         });
     }
@@ -265,6 +275,7 @@ public class UserDashboardView extends javax.swing.JFrame {
     private javax.swing.JButton userAvailableMoviesButton;
     private javax.swing.JButton userDashboardButton;
     // End of variables declaration//GEN-END:variables
+
 
   
      public JPanel getCardPanel(){

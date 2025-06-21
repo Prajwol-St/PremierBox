@@ -24,6 +24,7 @@ public class UserDashboardController {
       
     }
      
+     
       private void wire() {
         map(userdashboardView.getDashboard(),    "UserDashboard");
        
