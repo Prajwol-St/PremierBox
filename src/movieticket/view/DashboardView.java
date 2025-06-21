@@ -1290,7 +1290,6 @@ public class DashboardView extends javax.swing.JFrame {
     }//GEN-LAST:event_customersButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     private void movieTitleFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movieTitleFieldActionPerformed

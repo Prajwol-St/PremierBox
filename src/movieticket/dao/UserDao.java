@@ -125,14 +125,15 @@ public class UserDao {
         try{
 //           step 3: prepare statement
             PreparedStatement stmnt = conn.prepareStatement(query);
+            String hashedPassword = BCrypt.hashpw(resetReq.getPassword(), BCrypt.gensalt());
 //            step 4: use setstring to prepare query if needed
-            stmnt.setString(1,resetReq.getPassword());
+            stmnt.setString(1,hashedPassword);
             stmnt.setString(2,resetReq.getEmail());
 //            step 5: executequery or executeupdate
             int result = stmnt.executeUpdate();
             System.out.println("RESULT::"+result);
             return result>0;
-        }catch (Exception e){
+        }catch (SQLException e){
             System.out.println("EXCEPTION::"+e);
             return false;
         } finally{
