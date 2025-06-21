@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import movieticket.dao.CRUDAdminDAO;
 import movieticket.model.MoviesData;
 import movieticket.view.components.MovieCard;
@@ -24,28 +25,62 @@ public class UserDashboardView extends javax.swing.JFrame {
     /**
      * Creates new form UserDashboardView
      */
+    private final javax.swing.JScrollPane availableMoviesScrollPane;
+
+
     public UserDashboardView() {
         initComponents();
+        AvailableMovies = new JPanel();
+        AvailableMovies.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+
+        availableMoviesScrollPane = new JScrollPane(AvailableMovies);
+        availableMoviesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        availableMoviesScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        availableMoviesScrollPane.setBorder(null);
+        
+        UserDashboardCardPanel.add(UserDashboard, "UserDashboard");
+        UserDashboardCardPanel.add(availableMoviesScrollPane, "AvailableMovies");
+
     }
+    
+    
+    
      private void displayAvailableMovies() {
         AvailableMovies.removeAll(); // Clear previous content
-        AvailableMovies.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20)); // Card style layout
+        AvailableMovies.setLayout(new java.awt.GridBagLayout());
 
         CRUDAdminDAO dao = new CRUDAdminDAO();
-        try {
-            java.util.List<MoviesData> movies = dao.getAllMoviesWithImages();
-            for (MoviesData movie : movies) {
-                MovieCard card = new MovieCard(movie);
-                AvailableMovies.add(card);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Failed to load movies.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    try {
+        java.util.List<MoviesData> movies = dao.getAllMoviesWithImages();
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.insets = new java.awt.Insets(20, 30, 20, 30); // Top, Left, Bottom, Right spacing
+        gbc.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gbc.fill = java.awt.GridBagConstraints.NONE;
 
-        AvailableMovies.revalidate();
-        AvailableMovies.repaint();
+        int col = 0;
+        int row = 0;
+
+        for (MoviesData movie : movies) {
+            MovieCard card = new MovieCard(movie);
+
+            gbc.gridx = col;
+            gbc.gridy = row;
+
+            AvailableMovies.add(card, gbc);
+
+            col++;
+            if (col >= 2) { 
+                col = 0;
+                row++;
+            }
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Failed to load movies.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    AvailableMovies.revalidate();
+    AvailableMovies.repaint();
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -185,10 +220,10 @@ public class UserDashboardView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(mainPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 661, Short.MAX_VALUE))
+                .addGap(0, 664, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(184, Short.MAX_VALUE)
+                    .addContainerGap(187, Short.MAX_VALUE)
                     .addComponent(UserDashboardCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
@@ -216,7 +251,19 @@ public class UserDashboardView extends javax.swing.JFrame {
     }//GEN-LAST:event_userAvailableMoviesButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
-        // TODO add your handling code here:
+        int response = JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to log out?",
+        "Logout Confirmation",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE
+    );
+
+    if (response == JOptionPane.YES_OPTION) {
+        this.dispose();
+
+        new LoginView().setVisible(true);
+    }
     }//GEN-LAST:event_logoutButtonActionPerformed
 
     /**

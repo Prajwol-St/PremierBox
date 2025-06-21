@@ -40,6 +40,7 @@ public class MovieCard extends JPanel {
         dateLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         dateLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+
         JPanel infoPanel = new JPanel(new GridLayout(3, 1));
         infoPanel.setOpaque(false);
         infoPanel.add(titleLabel);
