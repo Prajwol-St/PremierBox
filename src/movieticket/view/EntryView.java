@@ -29,9 +29,9 @@ public class EntryView extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        registerButton = new javax.swing.JButton();
         welcomeLabel = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
-        registerButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -41,75 +41,61 @@ public class EntryView extends javax.swing.JFrame {
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.setOpaque(false);
 
-        welcomeLabel.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
+        registerButton.setBackground(new java.awt.Color(0, 0, 0));
+        registerButton.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        registerButton.setForeground(new java.awt.Color(255, 255, 255));
+        registerButton.setText("Register");
+        registerButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 1, true));
+
+        welcomeLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         welcomeLabel.setForeground(new java.awt.Color(255, 255, 255));
-        welcomeLabel.setText("Welcome to PremierBox");
+        welcomeLabel.setText("Welcome to the Billing System");
 
         loginButton.setBackground(new java.awt.Color(0, 0, 0));
         loginButton.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         loginButton.setForeground(new java.awt.Color(255, 255, 255));
         loginButton.setText("Login");
         loginButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 1, true));
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButtonActionPerformed(evt);
-            }
-        });
-
-        registerButton.setBackground(new java.awt.Color(0, 0, 0));
-        registerButton.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        registerButton.setForeground(new java.awt.Color(255, 255, 255));
-        registerButton.setText("Register");
-        registerButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 1, true));
-        registerButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registerButtonActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(173, 173, 173)
-                .addComponent(welcomeLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(49, 232, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(263, 263, 263))
+            .addGap(0, 410, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(84, 84, 84)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(38, 38, 38))
+                        .addComponent(welcomeLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addContainerGap(84, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
-                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(150, Short.MAX_VALUE))
+            .addGap(0, 280, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(79, 79, 79)
+                    .addComponent(welcomeLabel)
+                    .addGap(18, 18, 18)
+                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(79, Short.MAX_VALUE)))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 660, 420));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 160, 410, 280));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/829640-gorgerous-movie-backgrounds-1920x1080-ipad-pro.jpg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -70, 1000, 600));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/back.png"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 600));
 
-        setSize(new java.awt.Dimension(842, 469));
+        setSize(new java.awt.Dimension(1014, 608));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_loginButtonActionPerformed
-
-    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_registerButtonActionPerformed
 
     /**
      * @param args the command line arguments

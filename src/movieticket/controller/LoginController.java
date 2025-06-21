@@ -18,6 +18,7 @@ import movieticket.view.AdminMovies;
 import movieticket.view.DashboardView;
 import movieticket.view.LoginView;
 import movieticket.view.RegistrationView;
+import movieticket.view.UserDashboardView;
 
 /**
  *
@@ -163,14 +164,19 @@ public class LoginController {
                         "Login Successfull");
                     if (user.isAdmin()) {
                         // Open Admin Panel
-                        AdminMovies adminMovies = new AdminMovies(); 
-                        AdminMoviesController adminMoviesController = new AdminMoviesController(adminMovies);
-                        adminMoviesController.open();
-                    } else {
-                        // Open User Dashboard
                         DashboardView dashboardView = new DashboardView();
                         DashboardController dashboardController = new DashboardController(dashboardView);
+                        AddMoviesController addmoviescontroller= new  AddMoviesController(dashboardView);
                         dashboardController.open();
+                       
+                    } else {
+                        // Open User Dashboard
+                        
+                       
+                        UserDashboardView userdashboardView = new UserDashboardView();
+                        UserDashboardController userdashboardController = new UserDashboardController(userdashboardView);
+                       
+                        userdashboardController.open();
                     }
                     
                     close();

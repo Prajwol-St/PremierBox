@@ -14,7 +14,7 @@ import movieticket.view.UserDashboardView;
  */
 public class UserDashboardController {
      UserDashboardView userdashboardView;
-      private final CardLayout      cards; 
+      private final CardLayout cards; 
      
      public UserDashboardController(UserDashboardView userdashboardView){
         this.userdashboardView= userdashboardView;

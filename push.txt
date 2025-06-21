@@ -1,0 +1,4 @@
+cancle a booking 
+search bar
+watch history
+view and manage user booking 

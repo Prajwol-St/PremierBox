@@ -174,4 +174,36 @@ public class CRUDAdminDAO {
         }
         return null;
     }
+     
+    //to fetch data in the User MOvie as card interface
+    public List<MoviesData> getAllMoviesWithImages() throws SQLException {
+    Connection conn = mySql.openConnection();
+    List<MoviesData> movies = new ArrayList<>();
+
+    String query = "SELECT * FROM Movies";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(query);
+         ResultSet rs = pstmt.executeQuery()) {
+
+        while (rs.next()) {
+            MoviesData movie = new MoviesData(
+                rs.getInt("movie_id"),
+                rs.getString("title"),
+                rs.getString("genre"),
+                rs.getString("duration"),
+                rs.getString("datee"),
+                rs.getBytes("poster")  // Include poster for image
+            );
+            movies.add(movie);
+        }
+    } catch (SQLException ex) {
+        System.err.println("Error getting all movies with images: " + ex.getMessage());
+        throw ex;
+    } finally {
+        mySql.closeConnection(conn);
+    }
+
+    return movies;
+}
+
 }
