@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import movieticket.controller.PaymentController;
 import movieticket.dao.CRUDAdminDAO;
 import movieticket.dao.UserDao;
 import movieticket.model.MoviesData;
@@ -29,7 +30,13 @@ public class UserDashboardView extends javax.swing.JFrame {
     public UserDashboardView(int userId) {
     this.userId = userId;
     initComponents();
-}
+
+    
+        
+    };
+   
+  
+
 
     private UserDao userDao = new UserDao();
 
@@ -50,6 +57,12 @@ private void displayAvailableMovies() {
     AvailableMovies.revalidate();
     AvailableMovies.repaint();
 }
+private void openPaymentView() {
+    PaymentView paymentView = new PaymentView(userId, userDao);
+    new PaymentController(paymentView, userDao, userId);
+    paymentView.setVisible(true);
+}
+
 
 
 
@@ -67,6 +80,7 @@ private void displayAvailableMovies() {
         userDashboardButton = new javax.swing.JButton();
         userAvailableMoviesButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
+        paymentButton = new javax.swing.JButton();
         UserDashboardCardPanel = new javax.swing.JPanel();
         UserDashboard = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -111,6 +125,17 @@ private void displayAvailableMovies() {
             }
         });
 
+        paymentButton.setBackground(new java.awt.Color(0, 0, 0));
+        paymentButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        paymentButton.setForeground(new java.awt.Color(255, 255, 255));
+        paymentButton.setText("Payment");
+        paymentButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(25, 25, 112), 1, true));
+        paymentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paymentButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanel1Layout = new javax.swing.GroupLayout(mainPanel1);
         mainPanel1.setLayout(mainPanel1Layout);
         mainPanel1Layout.setHorizontalGroup(
@@ -120,7 +145,8 @@ private void displayAvailableMovies() {
                 .addGroup(mainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(userDashboardButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(userAvailableMoviesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                    .addComponent(logoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(logoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(paymentButton, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         mainPanel1Layout.setVerticalGroup(
@@ -130,7 +156,9 @@ private void displayAvailableMovies() {
                 .addComponent(userDashboardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(userAvailableMoviesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(paymentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
         );
@@ -227,6 +255,12 @@ private void displayAvailableMovies() {
         // TODO add your handling code here:
     }//GEN-LAST:event_logoutButtonActionPerformed
 
+    private void paymentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentButtonActionPerformed
+        // TODO add your handling code here:
+        openPaymentView();
+
+    }//GEN-LAST:event_paymentButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -272,9 +306,12 @@ private void displayAvailableMovies() {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton logoutButton;
     private javax.swing.JPanel mainPanel1;
+    private javax.swing.JButton paymentButton;
     private javax.swing.JButton userAvailableMoviesButton;
     private javax.swing.JButton userDashboardButton;
     // End of variables declaration//GEN-END:variables
+
+
 
 
   

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import movieticket.model.Payment;
 
 public class UserDao {
 
@@ -190,6 +191,48 @@ public class UserDao {
     }
     return movies;
 }
+   public boolean makePayment(Payment payment) {
+    Connection conn = mySql.openConnection();
+    String createTableSQL = "CREATE TABLE IF NOT EXISTS Payments ("
+        + "payment_id INT AUTO_INCREMENT PRIMARY KEY, "
+        + "booking_id INT NOT NULL, "
+        + "amount DOUBLE NOT NULL, "
+        + "payment_method VARCHAR(50), "
+        + "card_number VARCHAR(32), "
+        + "card_holder_name VARCHAR(100), "
+        + "expiry_date VARCHAR(10), "
+        + "cvv VARCHAR(10), "
+        + "payment_status VARCHAR(20), "
+        + "transaction_id VARCHAR(64), "
+        + "payment_date DATETIME DEFAULT CURRENT_TIMESTAMP"
+        + ")";
+    String query = "INSERT INTO Payments (booking_id, amount, payment_method, card_number, card_holder_name, expiry_date, cvv, payment_status, transaction_id, payment_date) "
+        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    try {
+        PreparedStatement createtbl = conn.prepareStatement(createTableSQL);
+        createtbl.executeUpdate();
+
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setInt(1, payment.getBookingId());
+        pstmt.setDouble(2, payment.getAmount());
+        pstmt.setString(3, payment.getPaymentMethod());
+        pstmt.setString(4, payment.getCardNumber());
+        pstmt.setString(5, payment.getCardHolderName());
+        pstmt.setString(6, payment.getExpiryDate());
+        pstmt.setString(7, payment.getCvv());
+        pstmt.setString(8, payment.getPaymentStatus());
+        pstmt.setString(9, payment.getTransactionId());
+        pstmt.setTimestamp(10, java.sql.Timestamp.valueOf(payment.getPaymentDate()));
+        int result = pstmt.executeUpdate();
+        return result > 0;
+    } catch (SQLException ex) {
+        System.err.println("Error making payment: " + ex.getMessage());
+        return false;
+    } finally {
+        mySql.closeConnection(conn);
+    }
+}
+
 }
 
 
