@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import javax.swing.*;
-import movieticket.controller.PaymentController;
 import movieticket.dao.CRUDAdminDAO;
 import movieticket.dao.UserDao;
 import movieticket.model.MoviesData;
@@ -17,13 +16,13 @@ public class UserDashboardView extends JFrame {
     private JScrollPane availableMoviesScrollPane;
     private JPanel userDashboardPanel;
     private JPanel cardPanel;
-    private JButton dashboardButton, availableMoviesButton, paymentButton, logoutButton;
+    private JButton dashboardButton, availableMoviesButton, logoutButton;
 
     public UserDashboardView(int userId) {
         this.userId = userId;
         initComponents();
         setupAvailableMoviesPanel();
-        // Show dashboard by default; do NOT call showAvailableMovies() here
+        // Show dashboard by default (do NOT show movies on startup)
     }
 
     private void setupAvailableMoviesPanel() {
@@ -63,12 +62,6 @@ public class UserDashboardView extends JFrame {
         availableMoviesPanel.repaint();
     }
 
-    private void openPaymentView() {
-        PaymentView paymentView = new PaymentView(userId, userDao);
-        new PaymentController(paymentView, userDao, userId);
-        paymentView.setVisible(true);
-    }
-
     private void initComponents() {
         setTitle("User Dashboard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,11 +73,9 @@ public class UserDashboardView extends JFrame {
         navPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
         dashboardButton = new JButton("Dashboard");
         availableMoviesButton = new JButton("Available Movies");
-        paymentButton = new JButton("Payment");
         logoutButton = new JButton("Log Out");
         navPanel.add(dashboardButton);
         navPanel.add(availableMoviesButton);
-        navPanel.add(paymentButton);
         navPanel.add(logoutButton);
 
         // Card panel (center area)
@@ -107,7 +98,6 @@ public class UserDashboardView extends JFrame {
             showAvailableMovies();
             displayAvailableMovies();
         });
-        paymentButton.addActionListener(evt -> openPaymentView());
         logoutButton.addActionListener(evt -> logout());
 
         // Add dashboard to card panel

@@ -3,10 +3,12 @@ package movieticket.controller;
 import movieticket.dao.UserDao;
 import movieticket.model.SeatBooking;
 import movieticket.view.BookSeatView;
+import movieticket.view.PaymentView;
 
 import javax.swing.*;
 
 public class BookSeatController {
+
     private final BookSeatView view;
     private final UserDao userDao;
     private final int userId;
@@ -39,7 +41,10 @@ public class BookSeatController {
         SeatBooking booking = new SeatBooking(userId, movieId, seats);
         boolean success = userDao.bookSeats(booking);
         if (success) {
-            JOptionPane.showMessageDialog(view, "Seats booked successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Seats booked successfully! Proceed to payment.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            // Open PaymentView after successful booking
+            PaymentView paymentView = new PaymentView(userId, userDao);
+            paymentView.setVisible(true);
             view.dispose();
         } else {
             JOptionPane.showMessageDialog(view, "Booking failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
