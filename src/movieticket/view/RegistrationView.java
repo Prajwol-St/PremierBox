@@ -206,9 +206,7 @@ public class RegistrationView extends javax.swing.JFrame {
                         .addComponent(loginLabel))
                     .addContainerGap(48, Short.MAX_VALUE)))
         );
-
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, 560, 410));
-
         jLabel1.setOpaque(true);
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
