@@ -10,7 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import movieticket.database.MySqlConnection;
 import movieticket.model.LoginRequest;
+import movieticket.model.Payment;
 import movieticket.model.ResetPasswordRequest;
+import movieticket.model.SeatBooking;
 import movieticket.model.UserData;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -139,4 +141,64 @@ public class UserDao {
             mySql.closeConnection(conn);
         }
     }
+    // Check if a seat is already booked for a given movie
+public boolean isSeatBooked(int movieId, String seatNumber) {
+    String query = "SELECT COUNT(*) FROM seat_bookings WHERE movie_id = ? AND FIND_IN_SET(?, seat_numbers)";
+    Connection conn = mySql.openConnection();
+    try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, movieId);
+        pstmt.setString(2, seatNumber);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) > 0;
+        }
+    } catch (SQLException ex) {
+        System.err.println(ex);
+    } finally {
+        mySql.closeConnection(conn);
+    }
+    return false;
+}
+
+// Book seats for a user
+public boolean bookSeats(SeatBooking booking) {
+    String query = "INSERT INTO seat_bookings (user_id, movie_id, seat_numbers) VALUES (?, ?, ?)";
+    Connection conn = mySql.openConnection();
+    try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, booking.getUserId());
+        pstmt.setInt(2, booking.getMovieId());
+        pstmt.setString(3, booking.getSeatNumbers());
+        int result = pstmt.executeUpdate();
+        return result > 0;
+    } catch (SQLException ex) {
+        System.err.println(ex);
+    } finally {
+        mySql.closeConnection(conn);
+    }
+    return false;
+}
+public boolean makePayment(Payment payment) {
+    String query = "INSERT INTO payments (booking_id, amount, payment_method, card_number, card_holder_name, expiry_date, payment_status, transaction_id, payment_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    Connection conn = mySql.openConnection();
+    try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, payment.getBookingId());
+        pstmt.setDouble(2, payment.getAmount());
+        pstmt.setString(3, payment.getPaymentMethod());
+        pstmt.setString(4, payment.getCardNumber());
+        pstmt.setString(5, payment.getCardHolderName());
+        pstmt.setString(6, payment.getExpiryDate());
+        pstmt.setString(7, payment.getPaymentStatus());
+        pstmt.setString(8, payment.getTransactionId());
+        pstmt.setObject(9, payment.getPaymentDate());
+        int result = pstmt.executeUpdate();
+        return result > 0;
+    } catch (SQLException ex) {
+        System.err.println(ex);
+    } finally {
+        mySql.closeConnection(conn);
+    }
+    return false;
+}
+
+
 }
