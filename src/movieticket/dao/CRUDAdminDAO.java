@@ -4,6 +4,7 @@
  */
 package movieticket.dao;
 
+import java.sql.Statement;   
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import movieticket.database.MySqlConnection;
+ 
 
 import movieticket.model.MoviesData;
 
@@ -49,7 +51,7 @@ public class CRUDAdminDAO {
          
           String query = "INSERT INTO Movies(title, genre, duration, datee, poster) VALUES(?, ?, ?, ?, ?)";
          
-           try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+           try (PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 //               System.out.println("here3 "+movieData.getTitle()+movieData.getGenre()+movieData.getDuration()+ movieData.getDate());
             pstmt.setString(1, moviesData.getTitle());
             pstmt.setString(2, moviesData.getGenre());
@@ -57,16 +59,21 @@ public class CRUDAdminDAO {
             pstmt.setString(4, moviesData.getDate());
             pstmt.setBytes(5, moviesData.getPosterPath());
             
-            int result = pstmt.executeUpdate();
-            return result > 0;
-        } catch (SQLException ex) {
-            System.err.println("Error adding movie: " + ex.getMessage());
-            throw ex;
-        } finally {
-            mySql.closeConnection(conn);
-        }
+            pstmt.executeUpdate();                      // run INSERT
+
+          ResultSet rs = pstmt.getGeneratedKeys();    // fetch AUTO_INCREMENT
+          if (rs.next()) {
+              int movieId = rs.getInt(1);             // ← PK value
+
+              insertTimesBatch(conn, movieId,         // ← HOOK #1
+                         moviesData.getShowTimes());
+
+          return true;                            // everything OK
+          }
+          return false;                               // safety net
          
          
+    }
     }
     
     
@@ -94,6 +101,18 @@ public class CRUDAdminDAO {
             }
             
             int result = pstmt.executeUpdate();
+            /* ────────── show-time refresh ───────────────────────────── */
+         try (PreparedStatement del =
+         conn.prepareStatement("DELETE FROM ShowTime WHERE movie_id=?")) {
+            del.setInt(1, moviesData.getMovie_id());
+         del.executeUpdate();                       // remove old times
+}
+
+insertTimesBatch(conn,                         // re-insert new list
+                 moviesData.getMovie_id(),
+                 moviesData.getShowTimes());
+/* ───────────────────────────────────────────────────────────*/
+
             return result > 0;
         } catch (SQLException ex) {
             System.err.println("Error updating movie: " + ex.getMessage());
@@ -195,6 +214,9 @@ public class CRUDAdminDAO {
                 rs.getString("datee"),
                 rs.getBytes("poster")  // Include poster for image
             );
+            
+             /* ---------- add this single line ---------- */
+            movie.setShowTimes(getTimes(movie.getMovie_id()));
             movies.add(movie);
         }
     } catch (SQLException ex) {
@@ -206,4 +228,59 @@ public class CRUDAdminDAO {
 
     return movies;
 }
+    
+    /* ------------------------------------------------------------------ */
+/*  SHOW-TIME SUPPORT –– ADD THESE THREE MEMBERS                      */
+/* ------------------------------------------------------------------ */
+
+/* create table once (idempotent) */
+private void createShowTimeTable() throws SQLException {          // ADD
+    String sql = """
+        CREATE TABLE IF NOT EXISTS ShowTime(
+          show_id   INT AUTO_INCREMENT PRIMARY KEY,
+          movie_id  INT NOT NULL,
+          show_time TIME NOT NULL,
+          FOREIGN KEY (movie_id) REFERENCES Movies(movie_id)
+                   ON DELETE CASCADE
+        )""";
+    try (Connection c = mySql.openConnection();
+         PreparedStatement ps = c.prepareStatement(sql)) {
+        ps.executeUpdate();
+    }
+}
+
+/* batch insert after movie insert/update */
+private void insertTimesBatch(Connection c,
+                              int movieId,
+                              java.util.List<String> times)        // ADD
+        throws SQLException {
+
+    if (times == null || times.isEmpty()) return;
+    createShowTimeTable();                             // ensure table
+
+    String sql = "INSERT INTO ShowTime(movie_id, show_time) VALUES (?,?)";
+    try (PreparedStatement ps = c.prepareStatement(sql)) {
+        for (String t : times) {
+            ps.setInt(1, movieId);
+            ps.setString(2, t.trim());
+            ps.addBatch();
+        }
+        ps.executeBatch();
+    }
+}
+
+/* fetch list when you need to show it */
+public java.util.List<String> getTimes(int movieId) throws SQLException { // ADD
+    java.util.List<String> out = new java.util.ArrayList<>();
+    String sql = "SELECT show_time FROM ShowTime WHERE movie_id=?";
+    try (Connection c = mySql.openConnection();
+         PreparedStatement ps = c.prepareStatement(sql)) {
+        ps.setInt(1, movieId);
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) out.add(rs.getString(1));
+        }
+    }
+    return out;
+}
+
 }

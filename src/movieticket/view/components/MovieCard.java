@@ -1,72 +1,101 @@
 package movieticket.view.components;
 
-import javax.swing.*;
-import java.awt.*;
 import movieticket.model.MoviesData;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+
 public class MovieCard extends JPanel {
+
+    
     public MovieCard(MoviesData movie) {
-        setPreferredSize(new Dimension(220, 340));
-        setBackground(Color.WHITE);
+
+        setPreferredSize(new Dimension(230, 360));
+        setLayout(new BorderLayout());
         setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)
-        ));
-        setLayout(new BorderLayout(10, 10));
+                BorderFactory.createLineBorder(new Color(180, 180, 180)),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+        setBackground(new Color(0xF4F6F9));
 
-        // Poster Image
-        JLabel imageLabel = new JLabel();
-        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        imageLabel.setPreferredSize(new Dimension(200, 180));
-        if (movie.getPosterPath() != null) {
-            ImageIcon icon = new ImageIcon(movie.getPosterPath());
-            Image scaled = icon.getImage().getScaledInstance(200, 180, Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(scaled));
-        } else {
-            imageLabel.setText("No Image");
-            imageLabel.setForeground(Color.GRAY);
+        /* 1. Poster ---------------------------------------------------- */
+        JLabel posterLabel = new JLabel();
+        posterLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        posterLabel.setIcon(movie.getScaledPoster(200, 240)); // your helper
+        add(posterLabel, BorderLayout.NORTH);
+
+        /* 2. Meta-data panel ------------------------------------------ */
+        JPanel info = new JPanel(new GridLayout(0, 1));
+        info.setOpaque(false);
+        info.add(bold(" " + movie.getTitle()));
+        info.add(new JLabel("Genre:  " + movie.getGenre()));
+        info.add(new JLabel("Date:   " + movie.getDate()));
+
+        /* 3. BUTTON BAR FOR TIMES  (replaces old JLabel) --------------- */
+        JPanel timeBar = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 4));
+        timeBar.setOpaque(false);
+        
+        java.time.format.DateTimeFormatter HHMM =
+        java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+
+         java.util.List<String> prettyTimes = java.util.Optional
+        .ofNullable(movie.getShowTimes())          // could be null
+        .orElse(java.util.Collections.emptyList()) // never null now
+        .stream()
+        .map(t -> {                                // trim “:00”
+            try { return java.time.LocalTime.parse(t).format(HHMM); }
+            catch (Exception ex) { return t; }
+        })
+        .toList();
+         
+
+        for (String t : /* REPLACE this variable */ prettyTimes) {      // ← CHANGE
+
+    JButton b = new JButton(t.trim());
+    b.setFocusPainted(false);
+    b.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+    b.setBackground(new Color(0x113C94));
+    b.setForeground(Color.WHITE);
+    b.setBorder(BorderFactory.createEmptyBorder(4, 12, 4, 12));
+
+    /* confirmation pop-up on click ------------------------ */
+    b.addActionListener(e -> {
+        int choice = JOptionPane.showConfirmDialog(
+                MovieCard.this,                                 // ← CHANGE “this”
+                "Book a seat for " + movie.getTitle()
+              + " (" + t + ")?",
+                "Confirm booking",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (choice == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(
+                    MovieCard.this,
+                    "Seat booking coming soon!",
+                    "Booked", JOptionPane.INFORMATION_MESSAGE);
+            // later: open seat-selection window here
         }
+    });
 
-        // Info Panel
-        JLabel titleLabel = new JLabel(movie.getTitle());
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    timeBar.add(b);                          // stay inside the loop
+}                                            // ← loop ends here
 
-        JLabel genreLabel = new JLabel("Genre: " + movie.getGenre());
-        genreLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        genreLabel.setHorizontalAlignment(SwingConstants.CENTER);
+/* ────────────────── INSERT BLOCK ②  add timeBar row ───────── */
+info.add(timeBar);                           // ONE call, after loop finishes
+/* ───────────────────────────────────────────────────────────── */
 
-        JLabel dateLabel = new JLabel("Date: " + movie.getDate());
-        dateLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        dateLabel.setHorizontalAlignment(SwingConstants.CENTER);
+add(info, BorderLayout.CENTER);
 
+        /* 4. Optional “Book Now” footer ------------------------------- */
+//        JButton bookNow = new JButton("Book Now");
+//        bookNow.setEnabled(false);   // will enable once seat screen exists
+//        add(bookNow, BorderLayout.SOUTH);
+    }
 
-        JPanel infoPanel = new JPanel(new GridLayout(3, 1));
-        infoPanel.setOpaque(false);
-        infoPanel.add(titleLabel);
-        infoPanel.add(genreLabel);
-        infoPanel.add(dateLabel);
-
-        // Button
-        JButton bookButton = new JButton("Book Now");
-        bookButton.setBackground(new Color(220, 53, 69)); // Bootstrap-like red
-        bookButton.setForeground(Color.WHITE);
-        bookButton.setFocusPainted(false);
-        bookButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        bookButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        bookButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        bookButton.addActionListener(e -> {
-            // You can pass movie.getMovie_id() if needed
-            JOptionPane.showMessageDialog(this, "Booking: " + movie.getTitle());
-        });
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setOpaque(false);
-        buttonPanel.add(bookButton);
-
-        // Layout arrangement
-        add(imageLabel, BorderLayout.NORTH);
-        add(infoPanel, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
+    /* helper for bold label */
+    private JLabel bold(String txt) {
+        JLabel l = new JLabel(txt, SwingConstants.CENTER);
+        l.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        return l;
     }
 }
