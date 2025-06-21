@@ -9,8 +9,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class BookSeatView extends JFrame {
+
     private JPanel seatPanel;
-    private JButton bookButton;
+    public JButton bookButton;
     private JLabel infoLabel;
     private Set<JButton> selectedSeats = new HashSet<>();
     private Map<JButton, String> seatMap = new HashMap<>();
@@ -66,6 +67,7 @@ public class BookSeatView extends JFrame {
 
         bookButton = new JButton("Book Selected Seats");
         bookButton.setFont(new Font("Arial", Font.BOLD, 16));
+
         JPanel bottomPanel = new JPanel();
         bottomPanel.add(bookButton);
 
@@ -107,5 +109,10 @@ public class BookSeatView extends JFrame {
 
     public String getSelectedSeats() {
         return selectedSeats.stream().map(seatMap::get).collect(Collectors.joining(","));
+    }
+
+    // --- This is the getter you need for your controller ---
+    public int getMovieId() {
+        return this.movieId;
     }
 }

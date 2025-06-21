@@ -7,10 +7,9 @@ import movieticket.controller.BookSeatController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class MovieCard extends JPanel {
+
     private UserDao userDao;
     private int userId;
 
@@ -44,7 +43,6 @@ public class MovieCard extends JPanel {
         info.add(bold(" " + movie.getTitle()));
         info.add(new JLabel("Genre: " + movie.getGenre()));
         info.add(new JLabel("Date: " + movie.getDate()));
-
         add(info, BorderLayout.CENTER);
 
         // 3. Book Seat button
@@ -54,8 +52,9 @@ public class MovieCard extends JPanel {
         bookSeatButton.setFocusPainted(false);
         bookSeatButton.setFont(new Font("Segoe UI", Font.BOLD, 13));
         bookSeatButton.addActionListener(e -> {
+            // Pass movieId to BookSeatView, but NOT to BookSeatController
             BookSeatView bookSeatView = new BookSeatView(userDao, movie.getMovie_id());
-            new BookSeatController(bookSeatView, userDao, userId, movie.getMovie_id());
+            new BookSeatController(bookSeatView, userDao, userId);
             bookSeatView.setVisible(true);
             if (parentFrame != null) parentFrame.setVisible(false);
         });

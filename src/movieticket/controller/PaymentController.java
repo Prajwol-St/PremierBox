@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 
 public class PaymentController {
+
     private PaymentView view;
     private UserDao userDao;
     private int userId;
@@ -29,12 +30,18 @@ public class PaymentController {
 
     private void processPayment() {
         try {
-            int bookingId = Integer.parseInt(view.bookingIdField.getText());
-            double amount = Double.parseDouble(view.amountField.getText());
-            String cardNumber = view.cardNumberField.getText();
-            String cardHolder = view.cardHolderField.getText();
-            String expiry = view.expiryField.getText();
-            String cvv = view.cvvField.getText();
+            int bookingId = Integer.parseInt(view.bookingIdField.getText().trim());
+            double amount = Double.parseDouble(view.amountField.getText().trim());
+            String cardNumber = view.cardNumberField.getText().trim();
+            String cardHolder = view.cardHolderField.getText().trim();
+            String expiry = view.expiryField.getText().trim();
+            String cvv = new String(view.cvvField.getPassword()).trim();
+
+            // Simple validation
+            if (cardNumber.isEmpty() || cardHolder.isEmpty() || expiry.isEmpty() || cvv.isEmpty()) {
+                JOptionPane.showMessageDialog(view, "Please fill in all fields.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             Payment payment = new Payment(bookingId, amount, "CARD", cardNumber, cardHolder, expiry, cvv);
             payment.setPaymentStatus("SUCCESS");
@@ -42,6 +49,7 @@ public class PaymentController {
             payment.setPaymentDate(LocalDateTime.now());
 
             boolean success = userDao.makePayment(payment);
+
             if (success) {
                 JOptionPane.showMessageDialog(view, "Payment successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 view.dispose();
