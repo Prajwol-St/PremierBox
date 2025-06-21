@@ -4,8 +4,18 @@
  */
 package movieticket.view;
 
+import java.awt.CardLayout;
+import movieticket.view.components.MovieCard;
+import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import movieticket.dao.CRUDAdminDAO;
+import movieticket.model.MoviesData;
+import java.sql.SQLException;
+
+
 
 /**
  *
@@ -16,8 +26,26 @@ public class UserDashboardView extends javax.swing.JFrame {
     /**
      * Creates new form UserDashboardView
      */
-    public UserDashboardView() {
+     public UserDashboardView() {
         initComponents();
+    }
+     private void displayAvailableMovies() {
+        AvailableMovies.removeAll(); // Clear previous content
+        AvailableMovies.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20)); // Card style layout
+
+        CRUDAdminDAO dao = new CRUDAdminDAO();
+        try {
+            java.util.List<MoviesData> movies = dao.getAllMoviesWithImages();
+            for (MoviesData movie : movies) {
+                MovieCard card = new MovieCard(movie);
+                AvailableMovies.add(card);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Failed to load movies.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        AvailableMovies.revalidate();
+        AvailableMovies.repaint();
     }
 
     /**
@@ -184,6 +212,9 @@ public class UserDashboardView extends javax.swing.JFrame {
 
     private void userAvailableMoviesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userAvailableMoviesButtonActionPerformed
         // TODO add your handling code here:
+        CardLayout cl = (CardLayout) UserDashboardCardPanel.getLayout();
+        cl.show(UserDashboardCardPanel, "AvailableMovies");
+        displayAvailableMovies();
     }//GEN-LAST:event_userAvailableMoviesButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
@@ -216,7 +247,7 @@ public class UserDashboardView extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(UserDashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -248,6 +279,10 @@ public class UserDashboardView extends javax.swing.JFrame {
   
   public JButton getAvailableMovies(){
         return userAvailableMoviesButton;
+    }
+  
+   public void logoutMovieListener(ActionListener listener){
+        logoutButton.addActionListener(listener);
     }
   
 
