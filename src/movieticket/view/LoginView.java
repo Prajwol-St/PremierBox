@@ -78,22 +78,12 @@ public class LoginView extends javax.swing.JFrame {
         showPasswordButton.setBackground(new java.awt.Color(0, 0, 0));
         showPasswordButton.setForeground(new java.awt.Color(255, 255, 255));
         showPasswordButton.setText("Show");
-        showPasswordButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showPasswordButtonActionPerformed(evt);
-            }
-        });
 
         loginButton.setBackground(new java.awt.Color(0, 0, 0));
         loginButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         loginButton.setForeground(new java.awt.Color(255, 255, 255));
         loginButton.setText("Login");
         loginButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 1, true));
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButtonActionPerformed(evt);
-            }
-        });
 
         forgotPasswordLabel.setBackground(new java.awt.Color(0, 153, 153));
         forgotPasswordLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
@@ -176,7 +166,7 @@ public class LoginView extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 160, 450, 290));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/back.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 0, 1000, 600));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

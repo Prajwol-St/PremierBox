@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package movieticket.dao;
 
 import java.sql.Connection;
@@ -7,12 +11,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import movieticket.database.MySqlConnection;
+
 import movieticket.model.MoviesData;
 
-public class AdminDao {
+/**
+ *
+ * @author Hp
+ */
+public class CRUDAdminDAO {
     MySqlConnection mySql = new MySqlConnection();
     
-    public boolean createMoviesTable() {
+      public boolean createMoviesTable() {
         Connection conn = mySql.openConnection();
         String createMoviesTableSQL = "CREATE TABLE IF NOT EXISTS Movies ("
                 + "movie_id INT AUTO_INCREMENT PRIMARY KEY, "               
@@ -34,13 +43,14 @@ public class AdminDao {
         }
     }
     
-    public boolean addMovie(MoviesData moviesData) throws SQLException {
-        Connection conn = mySql.openConnection();
-        createMoviesTable(); // Ensure table exists
-        
-        String query = "INSERT INTO Movies(title, genre, duration, datee, poster) VALUES(?, ?, ?, ?, ?)";
-        
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+    public boolean insertMovies(MoviesData moviesData) throws SQLException{
+         Connection conn = mySql.openConnection();
+         createMoviesTable();
+         
+          String query = "INSERT INTO Movies(title, genre, duration, datee, poster) VALUES(?, ?, ?, ?, ?)";
+         
+           try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+//               System.out.println("here3 "+movieData.getTitle()+movieData.getGenre()+movieData.getDuration()+ movieData.getDate());
             pstmt.setString(1, moviesData.getTitle());
             pstmt.setString(2, moviesData.getGenre());
             pstmt.setString(3, moviesData.getDuration());
@@ -55,9 +65,12 @@ public class AdminDao {
         } finally {
             mySql.closeConnection(conn);
         }
+         
+         
     }
     
-    public boolean updateMovie(MoviesData moviesData) throws SQLException {
+    
+     public boolean updateMovie(MoviesData moviesData) throws SQLException {
         Connection conn = mySql.openConnection();
         
         String query;
@@ -89,7 +102,7 @@ public class AdminDao {
             mySql.closeConnection(conn);
         }
     }
-    
+     
     public boolean deleteMovie(int movieId) throws SQLException {
         Connection conn = mySql.openConnection();
         String query = "DELETE FROM Movies WHERE movie_id=?";
@@ -105,8 +118,9 @@ public class AdminDao {
             mySql.closeConnection(conn);
         }
     }
-    
-    public List<MoviesData> getAllMovies() throws SQLException {
+     
+     
+     public List<MoviesData> getAllMovies() throws SQLException {
         Connection conn = mySql.openConnection();
         List<MoviesData> movies = new ArrayList<>();
         String query = "SELECT movie_id, title, genre, duration, datee FROM Movies";
@@ -133,8 +147,8 @@ public class AdminDao {
         }
         return movies;
     }
-    
-    public MoviesData getMovieById(int movieId) throws SQLException {
+     
+     public MoviesData getMovieById(int movieId) throws SQLException {
         Connection conn = mySql.openConnection();
         String query = "SELECT * FROM Movies WHERE movie_id=?";
         
@@ -160,4 +174,36 @@ public class AdminDao {
         }
         return null;
     }
+     
+    //to fetch data in the User MOvie as card interface
+    public List<MoviesData> getAllMoviesWithImages() throws SQLException {
+    Connection conn = mySql.openConnection();
+    List<MoviesData> movies = new ArrayList<>();
+
+    String query = "SELECT * FROM Movies";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(query);
+         ResultSet rs = pstmt.executeQuery()) {
+
+        while (rs.next()) {
+            MoviesData movie = new MoviesData(
+                rs.getInt("movie_id"),
+                rs.getString("title"),
+                rs.getString("genre"),
+                rs.getString("duration"),
+                rs.getString("datee"),
+                rs.getBytes("poster")  // Include poster for image
+            );
+            movies.add(movie);
+        }
+    } catch (SQLException ex) {
+        System.err.println("Error getting all movies with images: " + ex.getMessage());
+        throw ex;
+    } finally {
+        mySql.closeConnection(conn);
+    }
+
+    return movies;
+}
+
 }
