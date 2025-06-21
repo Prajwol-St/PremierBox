@@ -15,6 +15,11 @@
             <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/controller/LoginController.java</file>
             <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/dao/CRUDAdminDAO.java</file>
             <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/model/MoviesData.java</file>
+            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/dao/AdminDao.java</file>
+            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/view/LoginView.java</file>
+            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/view/EntryView.java</file>
+            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/view/ViewandManage.java</file>
+            <file>file:/C:/Users/acer/Desktop/MovieTicket/PremierBox/src/movieticket/view/ShowtimeBooking.java</file>
         </group>
     </open-files>
 </project-private>
