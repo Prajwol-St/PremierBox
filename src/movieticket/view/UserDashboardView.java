@@ -4,13 +4,20 @@
  */
 package movieticket.view;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.sql.SQLException;
+import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import movieticket.dao.CRUDAdminDAO;
 import movieticket.model.MoviesData;
 import movieticket.view.components.MovieCard;
@@ -26,10 +33,26 @@ public class UserDashboardView extends javax.swing.JFrame {
      * Creates new form UserDashboardView
      */
     private final javax.swing.JScrollPane availableMoviesScrollPane;
+    private JTextField searchField;
+    private JButton searchButton;
+
 
 
     public UserDashboardView() {
         initComponents();
+        searchField = new JTextField(20);
+        searchButton = new JButton("Search");
+        searchField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        searchButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        searchButton.setBackground(new Color(25, 25, 112));
+        searchButton.setForeground(Color.WHITE);
+        searchButton.setFocusPainted(false);
+
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
+        searchPanel.add(new JLabel("Search:"));
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+
         AvailableMovies = new JPanel();
         AvailableMovies.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
 
@@ -37,22 +60,38 @@ public class UserDashboardView extends javax.swing.JFrame {
         availableMoviesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         availableMoviesScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         availableMoviesScrollPane.setBorder(null);
-        
+
+        JPanel containerPanel = new JPanel();
+        containerPanel.setLayout(new BorderLayout());
+        containerPanel.add(searchPanel, BorderLayout.NORTH);
+        containerPanel.add(availableMoviesScrollPane, BorderLayout.CENTER);
+
         UserDashboardCardPanel.add(UserDashboard, "UserDashboard");
-        UserDashboardCardPanel.add(availableMoviesScrollPane, "AvailableMovies");
+        UserDashboardCardPanel.add(containerPanel, "AvailableMovies");
+
+        searchButton.addActionListener(e -> {
+            String keyword = searchField.getText().trim();
+            displayAvailableMovies(keyword);
+        });
 
     }
     
+    private void displayAvailableMovies() {
+        String keyword = searchField.getText().trim();
+        displayAvailableMovies(keyword);
+    }
     
-    
-     private void displayAvailableMovies() {
+     private void displayAvailableMovies(String keyword) {
         AvailableMovies.removeAll(); // Clear previous content
         AvailableMovies.setLayout(new java.awt.GridBagLayout());
-
+        
+        
         CRUDAdminDAO dao = new CRUDAdminDAO();
     try {
-        java.util.List<MoviesData> movies = dao.getAllMoviesWithImages();
-        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        List<MoviesData> allMovies = dao.getAllMoviesWithImages();
+        List<MoviesData> filteredMovies = allMovies.stream().filter(movie -> movie.getTitle().toLowerCase().contains(keyword.toLowerCase())).toList();
+
+        GridBagConstraints gbc = new java.awt.GridBagConstraints();
         gbc.insets = new java.awt.Insets(20, 30, 20, 30); // Top, Left, Bottom, Right spacing
         gbc.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gbc.fill = java.awt.GridBagConstraints.NONE;
@@ -60,7 +99,7 @@ public class UserDashboardView extends javax.swing.JFrame {
         int col = 0;
         int row = 0;
 
-        for (MoviesData movie : movies) {
+        for (MoviesData movie : filteredMovies) {
             MovieCard card = new MovieCard(movie);
 
             gbc.gridx = col;
@@ -240,7 +279,8 @@ public class UserDashboardView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void userDashboardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userDashboardButtonActionPerformed
-        // TODO add your handling code here:
+        CardLayout cl = (CardLayout) UserDashboardCardPanel.getLayout();
+        cl.show(UserDashboardCardPanel, "UserDashboard");
     }//GEN-LAST:event_userDashboardButtonActionPerformed
 
     private void userAvailableMoviesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userAvailableMoviesButtonActionPerformed

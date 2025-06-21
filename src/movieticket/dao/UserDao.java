@@ -133,7 +133,7 @@ public class UserDao {
             int result = stmnt.executeUpdate();
             System.out.println("RESULT::"+result);
             return result>0;
-        }catch (Exception e){
+        }catch (SQLException e){
             System.out.println("EXCEPTION::"+e);
             return false;
         } finally{
