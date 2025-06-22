@@ -54,7 +54,6 @@ public class RegistrationView extends javax.swing.JFrame {
         txtConfirmPasswordField = new javax.swing.JPasswordField();
         txtPasswordField = new javax.swing.JPasswordField();
         PasswordIcon1 = new javax.swing.JLabel();
-        UploadImageBtn = new javax.swing.JButton();
         SignUpBtn = new javax.swing.JButton();
         ShowPasswordBtn = new javax.swing.JButton();
         ShowConfirmPasswordBtn = new javax.swing.JButton();
@@ -62,7 +61,7 @@ public class RegistrationView extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(0, 153, 102));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
         AppLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Logo.png"))); // NOI18N
 
@@ -86,7 +85,7 @@ public class RegistrationView extends javax.swing.JFrame {
         LogInsub2.setForeground(new java.awt.Color(204, 204, 204));
         LogInsub2.setText("and stay connected with us.");
 
-        LogInBtn.setBackground(new java.awt.Color(0, 153, 102));
+        LogInBtn.setBackground(new java.awt.Color(0, 153, 153));
         LogInBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         LogInBtn.setForeground(new java.awt.Color(255, 255, 255));
         LogInBtn.setText("Log In");
@@ -145,7 +144,6 @@ public class RegistrationView extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(227, 227, 227));
 
         SignupTitle.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
-        SignupTitle.setForeground(new java.awt.Color(0, 128, 102));
         SignupTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         SignupTitle.setText("Sign Up");
 
@@ -223,22 +221,11 @@ public class RegistrationView extends javax.swing.JFrame {
 
         PasswordIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/lock.png"))); // NOI18N
 
-        UploadImageBtn.setBackground(new java.awt.Color(0, 102, 102));
-        UploadImageBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        UploadImageBtn.setForeground(new java.awt.Color(255, 255, 255));
-        UploadImageBtn.setText("Upload Image");
-        UploadImageBtn.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        UploadImageBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UploadImageBtnActionPerformed(evt);
-            }
-        });
-
-        SignUpBtn.setBackground(new java.awt.Color(0, 153, 102));
+        SignUpBtn.setBackground(new java.awt.Color(0, 204, 204));
         SignUpBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         SignUpBtn.setForeground(new java.awt.Color(255, 255, 255));
         SignUpBtn.setText("Sign Up");
-        SignUpBtn.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        SignUpBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         SignUpBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SignUpBtnActionPerformed(evt);
@@ -291,10 +278,9 @@ public class RegistrationView extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ShowPasswordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(UploadImageBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(ShowPasswordBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(180, 180, 180)
+                        .addGap(173, 173, 173)
                         .addComponent(SignUpBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
@@ -327,11 +313,9 @@ public class RegistrationView extends javax.swing.JFrame {
                         .addComponent(PasswordIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(PasswordIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(UploadImageBtn)
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
                 .addComponent(SignUpBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 460, 460));
@@ -411,10 +395,6 @@ public class RegistrationView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPasswordFieldActionPerformed
 
-    private void UploadImageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UploadImageBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_UploadImageBtnActionPerformed
-
     private void SignUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SignUpBtnActionPerformed
@@ -482,7 +462,6 @@ public class RegistrationView extends javax.swing.JFrame {
     private javax.swing.JButton SignUpBtn;
     private javax.swing.JLabel SignUpSubtitle;
     private javax.swing.JLabel SignupTitle;
-    private javax.swing.JButton UploadImageBtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField txtConfirmPasswordField;
@@ -515,9 +494,9 @@ public class RegistrationView extends javax.swing.JFrame {
     public void showPasswordButton1Listener(ActionListener listener){
         ShowConfirmPasswordBtn.addActionListener(listener);
     }
-    public void uploadImageButtonListener(ActionListener listener){
-        UploadImageBtn.addActionListener(listener);
-    }
+//    public void uploadImageButtonListener(ActionListener listener){
+//        UploadImageBtn.addActionListener(listener);
+//    }
 
     public void setSelectedFile(File file) {
         this.selectedFile = file;

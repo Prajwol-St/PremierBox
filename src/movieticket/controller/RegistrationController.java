@@ -35,7 +35,7 @@ public class RegistrationController {
         registrationView.addLoginListener(new LoginListener());
         registrationView.showPasswordButtonListener(new ShowPasswordListener());
         registrationView.showPasswordButton1Listener(new ShowConfirmPasswordListener());
-        registrationView.uploadImageButtonListener(new UploadImageListener());
+//        registrationView.uploadImageButtonListener(new UploadImageListener());
     }
      public void open(){
         this.registrationView.setVisible(true);
