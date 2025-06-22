@@ -14,14 +14,18 @@ import java.awt.GridBagConstraints;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import movieticket.dao.CRUDAdminDAO;
 import movieticket.model.MoviesData;
+import movieticket.model.UserData;
 import movieticket.view.components.MovieCard;
+import movieticket.view.components.UserProfilePanel;
     
 
 /**
@@ -36,11 +40,17 @@ public class UserDashboardView extends javax.swing.JFrame {
     private final javax.swing.JScrollPane availableMoviesScrollPane;
     private JTextField searchField;
     private JButton searchButton;
+    private UserData loggedInUser;
 
 
 
-    public UserDashboardView() {
+    public UserDashboardView(UserData user) {
+        this.loggedInUser = user;
         initComponents();
+        UserDashboard.setLayout(new BorderLayout());
+        UserDashboard.add(new UserProfilePanel(loggedInUser), BorderLayout.CENTER);
+
+        this.loggedInUser = user;
         searchField = new JTextField(20);
         searchButton = new JButton("Search");
         searchField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -76,6 +86,7 @@ public class UserDashboardView extends javax.swing.JFrame {
         });
 
     }
+
     
     private void displayAvailableMovies() {
         String keyword = searchField.getText().trim();
@@ -204,6 +215,10 @@ public class UserDashboardView extends javax.swing.JFrame {
 
         UserDashboardCardPanel.setLayout(new java.awt.CardLayout());
 
+        this.loggedInUser = user;
+        UserDashboard.setLayout(new BorderLayout());
+        UserDashboard.add(new UserProfilePanel(loggedInUser), BorderLayout.CENTER);
+
         jLabel1.setText("jLabel1");
 
         javax.swing.GroupLayout UserDashboardLayout = new javax.swing.GroupLayout(UserDashboard);
@@ -278,7 +293,7 @@ public class UserDashboardView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void userDashboardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userDashboardButtonActionPerformed
         CardLayout cl = (CardLayout) UserDashboardCardPanel.getLayout();
         cl.show(UserDashboardCardPanel, "UserDashboard");
@@ -310,35 +325,13 @@ public class UserDashboardView extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserDashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserDashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserDashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserDashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UserDashboardView().setVisible(true);
-            }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            // Mock logged-in user
+            UserData mockUser = new UserData();
+            mockUser.setId(1);
+            mockUser.setName("Test User");
+            new UserDashboardView(mockUser).setVisible(true);
         });
     }
 

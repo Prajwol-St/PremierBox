@@ -167,6 +167,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="UserDashboard">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="this.loggedInUser = user;&#xa;UserDashboard.setLayout(new BorderLayout());&#xa;        UserDashboard.add(new UserProfilePanel(loggedInUser), BorderLayout.CENTER);"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
               <CardConstraints cardName="UserDashboard"/>

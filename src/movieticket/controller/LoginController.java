@@ -163,21 +163,16 @@ public class LoginController {
                     JOptionPane.showMessageDialog(loginView, 
                         "Login Successfull");
                     if (user.isAdmin()) {
-                        // Open Admin Panel
                         DashboardView dashboardView = new DashboardView();
                         DashboardController dashboardController = new DashboardController(dashboardView);
-                        AddMoviesController addmoviescontroller= new  AddMoviesController(dashboardView);
+                        AddMoviesController addmoviescontroller = new AddMoviesController(dashboardView);
                         dashboardController.open();
-                       
                     } else {
-                        // Open User Dashboard
-                        
-                       
-                        UserDashboardView userdashboardView = new UserDashboardView();
+                        UserDashboardView userdashboardView = new UserDashboardView(user);
                         UserDashboardController userdashboardController = new UserDashboardController(userdashboardView);
-                       
                         userdashboardController.open();
                     }
+
                     
                     close();
                 } else{

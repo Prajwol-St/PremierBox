@@ -140,4 +140,37 @@ public class UserDao {
             mySql.closeConnection(conn);
         }
     }
+    
+
+        public boolean updateUser(int userId, String name, String password) {
+        String query;
+        boolean updatePassword = password != null && !password.isEmpty();
+
+        if (updatePassword) {
+            query = "UPDATE demoUserss SET name = ?, password = ? WHERE id = ?";
+        } else {
+            query = "UPDATE demoUserss SET name = ? WHERE id = ?";
+        }
+
+        Connection conn = mySql.openConnection();
+
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, name);
+            if (updatePassword) {
+                String hashedPassword = org.mindrot.jbcrypt.BCrypt.hashpw(password, org.mindrot.jbcrypt.BCrypt.gensalt());
+                pstmt.setString(2, hashedPassword);
+                pstmt.setInt(3, userId);
+            } else {
+                pstmt.setInt(2, userId);
+            }
+
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Update Exception: " + e);
+            return false;
+        } finally {
+            mySql.closeConnection(conn);
+        }
+    }
+
 }
