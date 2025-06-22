@@ -29,8 +29,7 @@ public class DashboardController {
      private void wire() {
         map(dashboardView.getDashboard(),    "dashboard");
         map(dashboardView.getAddMovies() , "addMovies");
-        map(dashboardView.getAvailableMovies(),"availableMovies");
-        map(dashboardView.getEditScreening(),"edit");
+        
         map(dashboardView.getCustomer(),"customer");
     }
      
