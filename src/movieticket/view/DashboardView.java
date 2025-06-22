@@ -50,7 +50,6 @@ public class DashboardView extends javax.swing.JFrame {
         mainPanel = new javax.swing.JPanel();
         dashboardButton = new javax.swing.JButton();
         addMoviesButton = new javax.swing.JButton();
-        editScreeningButton = new javax.swing.JButton();
         customersButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
         cardPanel = new javax.swing.JPanel();
@@ -136,17 +135,6 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
 
-        editScreeningButton.setBackground(new java.awt.Color(0, 0, 0));
-        editScreeningButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        editScreeningButton.setForeground(new java.awt.Color(255, 255, 255));
-        editScreeningButton.setText("Edit Screening");
-        editScreeningButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(25, 25, 112), 1, true));
-        editScreeningButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editScreeningButtonActionPerformed(evt);
-            }
-        });
-
         customersButton.setBackground(new java.awt.Color(0, 0, 0));
         customersButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         customersButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -179,7 +167,6 @@ public class DashboardView extends javax.swing.JFrame {
                     .addComponent(addMoviesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(dashboardButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(editScreeningButton, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                         .addComponent(customersButton, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                         .addComponent(logoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)))
                 .addContainerGap(21, Short.MAX_VALUE))
@@ -191,9 +178,7 @@ public class DashboardView extends javax.swing.JFrame {
                 .addComponent(dashboardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addMoviesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(editScreeningButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(82, 82, 82)
                 .addComponent(customersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -809,10 +794,6 @@ public class DashboardView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_dashboardButtonActionPerformed
 
-    private void editScreeningButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editScreeningButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editScreeningButtonActionPerformed
-
     private void customersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customersButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_customersButtonActionPerformed
@@ -898,7 +879,6 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JButton dashboardButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JTextField durationField;
-    private javax.swing.JButton editScreeningButton;
     private javax.swing.JTextField genreField;
     private javax.swing.JButton importButton;
     private javax.swing.JButton insertButton;
