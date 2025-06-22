@@ -24,7 +24,7 @@ import java.sql.SQLException;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JScrollBar;
+
 import javax.swing.JScrollPane;
 // ─── NEW
 import java.awt.event.WindowAdapter;
@@ -48,7 +48,7 @@ public class UserDashboardView extends javax.swing.JFrame {
      private final JPanel          trendingStrip = new JPanel();
      private final DefaultListModel<String> notiModel = new DefaultListModel<>();
      private final UserDao         userDao       = new UserDao();
-     private final int userId;  
+     private final int userId = 0;  
      // ─── NEW  : auto-scroll helper
      private javax.swing.Timer trendTimer;
      private javax.swing.JScrollPane trendScroll;
@@ -58,9 +58,9 @@ public class UserDashboardView extends javax.swing.JFrame {
 
 
     
-      public UserDashboardView(int uid) {
+      public UserDashboardView() {
         
-        this.userId = uid;  
+        
         initComponents();
                 /* refresh once the frame is visible */                       // ─── NEW
         addWindowListener(new WindowAdapter(){                         // ─── NEW
