@@ -14,7 +14,7 @@ import movieticket.dao.UserDao;
 import movieticket.model.LoginRequest;
 import movieticket.model.ResetPasswordRequest;
 import movieticket.model.UserData;
-import movieticket.view.AdminMovies;
+
 import movieticket.view.DashboardView;
 import movieticket.view.LoginView;
 import movieticket.view.RegistrationView;
