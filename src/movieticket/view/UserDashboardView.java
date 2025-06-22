@@ -44,7 +44,7 @@ public class UserDashboardView extends javax.swing.JFrame {
     /**
      * Creates new form UserDashboardView
      */
-     private final javax.swing.JScrollPane availableMoviesScrollPane;
+       private final javax.swing.JScrollPane availableMoviesScrollPane;
      private final JPanel          trendingStrip = new JPanel();
      private final DefaultListModel<String> notiModel = new DefaultListModel<>();
      private final UserDao         userDao       = new UserDao();
@@ -56,9 +56,11 @@ public class UserDashboardView extends javax.swing.JFrame {
     private static final int NOTI_HEIGHT = 80;
 
 
+
     
       public UserDashboardView(int uid) {
-         this.userId = uid;  
+        
+        this.userId = uid;  
         initComponents();
                 /* refresh once the frame is visible */                       // ─── NEW
         addWindowListener(new WindowAdapter(){                         // ─── NEW
