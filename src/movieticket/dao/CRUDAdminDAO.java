@@ -283,4 +283,62 @@ public java.util.List<String> getTimes(int movieId) throws SQLException { // ADD
     return out;
 }
 
+/*  Add after existing SELECT methods                                    */
+public List<MoviesData> getTrendingMovies() throws SQLException {        // ─── NEW ───
+   
+    final String[] timeCols = {             // try these in order
+            "booking_timestamp", "created", "booking_date"
+    };
+    String base =
+        "SELECT m.*, COUNT(*) sold                       \n" +
+        "  FROM seat_bookings b                          \n" +
+        "  JOIN Movies m ON m.movie_id = b.movie_id      \n" +
+        " WHERE b.%s > DATE_SUB(NOW(), INTERVAL 7 DAY)   \n" +   // %s = ts column
+        " GROUP BY b.movie_id                            \n" +
+        " ORDER BY sold DESC                             \n" +
+        " LIMIT 10";
+
+    for (String col : timeCols) {
+        String sql = String.format(base, col);
+        try (Connection c = mySql.openConnection();
+             PreparedStatement ps = c.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            List<MoviesData> list = new ArrayList<>();
+            while (rs.next()) {
+                MoviesData m = new MoviesData(
+                        rs.getInt("movie_id"),
+                        rs.getString("title"),
+                        rs.getString("genre"),
+                        rs.getString("duration"),
+                        rs.getString("datee"),
+                        rs.getBytes ("poster"));
+                list.add(m);
+            }
+            if (!list.isEmpty()) return list;        // success – return posters
+        } catch (SQLException ignored) { /* wrong column; try next */ }
+    }
+
+    // Fallback: show the 10 most-recently added movies
+    String alt = "SELECT * FROM Movies ORDER BY movie_id DESC LIMIT 10";
+    List<MoviesData> altList = new ArrayList<>();
+    try (Connection c = mySql.openConnection();
+         PreparedStatement ps = c.prepareStatement(alt);
+         ResultSet rs = ps.executeQuery()) {
+        while (rs.next()) {
+            altList.add(new MoviesData(
+                    rs.getInt("movie_id"),
+                    rs.getString("title"),
+                    rs.getString("genre"),
+                    rs.getString("duration"),
+                    rs.getString("datee"),
+                    rs.getBytes("poster")));
+        }
+    } catch (SQLException ex) {
+        System.err.println("TrendingMovies fallback failed: " + ex.getMessage());
+    }
+    return altList;       
+}
+
+
 }

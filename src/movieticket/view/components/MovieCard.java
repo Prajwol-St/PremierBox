@@ -1,101 +1,150 @@
 package movieticket.view.components;
 
+import movieticket.dao.UserDao;
 import movieticket.model.MoviesData;
+import movieticket.view.BookSeatView;
+import movieticket.controller.BookSeatController;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.AbstractBorder;
+import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 public class MovieCard extends JPanel {
 
-    
-    public MovieCard(MoviesData movie) {
+    /* ------------------------------------------------------------------ */
+    private final UserDao userDao;
+    private final int     userId;
+    private final JFrame  parent;
 
-        setPreferredSize(new Dimension(230, 360));
+    public MovieCard(MoviesData movie, JFrame owner, UserDao dao, int uid) {
+        this.userDao = (dao != null) ? dao : new UserDao();          // ─── NEW ───
+        this.userId  = uid;
+        this.parent  = owner;
+        buildUI(movie);
+    }
+    public MovieCard(MoviesData movie) { this(movie, null, null, -1); }
+
+    /* ------------------------------------------------------------------ */
+    private void buildUI(MoviesData movie) {
+
+        setPreferredSize(new Dimension(240, 370));
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(180, 180, 180)),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-        setBackground(new Color(0xF4F6F9));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setOpaque(false);
 
-        /* 1. Poster ---------------------------------------------------- */
-        JLabel posterLabel = new JLabel();
-        posterLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        posterLabel.setIcon(movie.getScaledPoster(200, 240)); // your helper
-        add(posterLabel, BorderLayout.NORTH);
+        /* poster */
+        JLabel poster = new JLabel();
+        poster.setHorizontalAlignment(SwingConstants.CENTER);
+        poster.setIcon(scalePoster(movie.getPosterPath(), 200, 240));
+        poster.setBorder(new DropShadowBorder());
+        add(poster, BorderLayout.NORTH);
 
-        /* 2. Meta-data panel ------------------------------------------ */
-        JPanel info = new JPanel(new GridLayout(0, 1));
-        info.setOpaque(false);
-        info.add(bold(" " + movie.getTitle()));
-        info.add(new JLabel("Genre:  " + movie.getGenre()));
-        info.add(new JLabel("Date:   " + movie.getDate()));
+        /* glass info panel */
+        JPanel info = new GlassPanel();
+        info.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        info.setLayout(new GridBagLayout());
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.gridx = 0; gc.anchor = GridBagConstraints.WEST; gc.weightx = 1;
 
-        /* 3. BUTTON BAR FOR TIMES  (replaces old JLabel) --------------- */
-        JPanel timeBar = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 4));
-        timeBar.setOpaque(false);
-        
-        java.time.format.DateTimeFormatter HHMM =
-        java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+        gc.gridy = 0; info.add(bold(movie.getTitle()), gc);
+        gc.gridy = 1; info.add(light("Genre: " + movie.getGenre()), gc);
+        gc.gridy = 2; info.add(light("Date : " + movie.getDate()),  gc);
 
-         java.util.List<String> prettyTimes = java.util.Optional
-        .ofNullable(movie.getShowTimes())          // could be null
-        .orElse(java.util.Collections.emptyList()) // never null now
-        .stream()
-        .map(t -> {                                // trim “:00”
-            try { return java.time.LocalTime.parse(t).format(HHMM); }
-            catch (Exception ex) { return t; }
-        })
-        .toList();
-         
+        /* pill bar */
+        JPanel bar = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 4));
+        bar.setOpaque(false);
 
-        for (String t : /* REPLACE this variable */ prettyTimes) {      // ← CHANGE
+        DateTimeFormatter HHMM = DateTimeFormatter.ofPattern("HH:mm");
+        List<String> times = Optional.ofNullable(movie.getShowTimes())
+                                     .orElse(List.of())
+                                     .stream()
+                                     .map(t -> t.length()==8 ? t.substring(0,5) : t)
+                                     .map(t -> { try { return java.time.LocalTime.parse(t).format(HHMM);}
+                                                 catch(Exception e){ return t; }})
+                                     .toList();
 
-    JButton b = new JButton(t.trim());
-    b.setFocusPainted(false);
-    b.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-    b.setBackground(new Color(0x113C94));
-    b.setForeground(Color.WHITE);
-    b.setBorder(BorderFactory.createEmptyBorder(4, 12, 4, 12));
+        for (String t : times) {
+            JButton pill = createPill(t);
 
-    /* confirmation pop-up on click ------------------------ */
-    b.addActionListener(e -> {
-        int choice = JOptionPane.showConfirmDialog(
-                MovieCard.this,                                 // ← CHANGE “this”
-                "Book a seat for " + movie.getTitle()
-              + " (" + t + ")?",
-                "Confirm booking",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE);
+            /* open seat-selection on click */
+            pill.addActionListener(e -> {                               // ─── NEW ───
+                BookSeatView seat = new BookSeatView(userDao, movie.getMovie_id()); // ─── NEW ───
+                seat.setTitle(movie.getTitle() + " – " + t);                          // ─── NEW ───
+                new BookSeatController(seat, userDao, userId);                        // ─── NEW ───
+                seat.setVisible(true);                                                // ─── NEW ───
+                if (parent != null) parent.setVisible(false);                         // ─── NEW ───
+            });                                                                       // ─── NEW ───
 
-        if (choice == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(
-                    MovieCard.this,
-                    "Seat booking coming soon!",
-                    "Booked", JOptionPane.INFORMATION_MESSAGE);
-            // later: open seat-selection window here
+            bar.add(pill);
         }
-    });
-
-    timeBar.add(b);                          // stay inside the loop
-}                                            // ← loop ends here
-
-/* ────────────────── INSERT BLOCK ②  add timeBar row ───────── */
-info.add(timeBar);                           // ONE call, after loop finishes
-/* ───────────────────────────────────────────────────────────── */
-
-add(info, BorderLayout.CENTER);
-
-        /* 4. Optional “Book Now” footer ------------------------------- */
-//        JButton bookNow = new JButton("Book Now");
-//        bookNow.setEnabled(false);   // will enable once seat screen exists
-//        add(bookNow, BorderLayout.SOUTH);
+        gc.gridy = 3; info.add(bar, gc);
+        add(info, BorderLayout.CENTER);
+        /* old “Book Seat” button removed */
     }
 
-    /* helper for bold label */
-    private JLabel bold(String txt) {
-        JLabel l = new JLabel(txt, SwingConstants.CENTER);
-        l.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        return l;
+    /* helpers ---------------------------------------------------------- */
+    private JLabel bold(String s){ JLabel l=new JLabel(s); l.setFont(getFont().deriveFont(Font.BOLD,15f)); l.setForeground(Color.WHITE); return l; }
+    private JLabel light(String s){ JLabel l=new JLabel(s); l.setForeground(new Color(200,200,200)); return l; }
+
+    private JButton createPill(String txt){
+        JButton b = new JButton(txt);
+        b.setFont(getFont().deriveFont(Font.BOLD, 12f));
+        b.setForeground(Color.WHITE);
+        b.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        b.setBorder(BorderFactory.createEmptyBorder(4, 14, 4, 14));
+        b.setContentAreaFilled(false);
+        b.setFocusPainted(false);
+
+        b.setUI(new BasicButtonUI(){
+            @Override public void paint(Graphics g, JComponent c){
+                Graphics2D g2=(Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                AbstractButton btn = (AbstractButton) c;               // ─── NEW ───
+                Color fill = btn.getModel().isArmed()                  // ─── NEW ───
+                        ? new Color(0x0B4FA3) : new Color(0x0E63C4);
+                g2.setColor(fill);
+                g2.fillRoundRect(0,0,c.getWidth(),c.getHeight(),20,20);
+                g2.dispose();
+                super.paint(g, c);
+            }
+        });
+        return b;
+    }
+
+    private static ImageIcon scalePoster(byte[] p,int w,int h){
+        if(p==null) return null;
+        try(var in=new ByteArrayInputStream(p)){
+            BufferedImage img=ImageIO.read(in);
+            if(img==null) return null;
+            return new ImageIcon(img.getScaledInstance(w,h,Image.SCALE_SMOOTH));
+        }catch(Exception e){ return null; }
+    }
+
+    /* glass background */
+    private static class GlassPanel extends JPanel{
+        GlassPanel(){ setOpaque(false); }
+        @Override protected void paintComponent(Graphics g){
+            Graphics2D g2=(Graphics2D)g.create();
+            g2.setComposite(AlphaComposite.SrcOver.derive(.8f));
+            g2.setPaint(new GradientPaint(0,0,new Color(34,34,34,230),
+                                          0,getHeight(),new Color(34,34,34,150)));
+            g2.fillRoundRect(0,0,getWidth(),getHeight(),20,20);
+            g2.dispose(); super.paintComponent(g);
+        }
+    }
+    private static class DropShadowBorder extends AbstractBorder{
+        @Override public void paintBorder(Component c,Graphics g,int x,int y,int w,int h){
+            Graphics2D g2=(Graphics2D)g.create();
+            g2.setColor(new Color(0,0,0,60));
+            g2.fillRoundRect(x+2,y+2,w-4,h-4,18,18);
+            g2.dispose();
+        }
     }
 }
