@@ -29,6 +29,7 @@ import javax.swing.JScrollPane;
 // ─── NEW
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
 
      // put in the import section
 
@@ -62,6 +63,7 @@ public class UserDashboardView extends javax.swing.JFrame {
         
         
         initComponents();
+         setExtendedState(JFrame.MAXIMIZED_BOTH);
                 /* refresh once the frame is visible */                       // ─── NEW
         addWindowListener(new WindowAdapter(){                         // ─── NEW
             @Override public void windowOpened(WindowEvent e){         // ─── NEW
