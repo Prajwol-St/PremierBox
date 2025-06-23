@@ -30,6 +30,9 @@ import javax.swing.JScrollPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import movieticket.model.UserData;
+import movieticket.view.components.UserProfilePanel;
 
      // put in the import section
 
@@ -55,15 +58,18 @@ public class UserDashboardView extends javax.swing.JFrame {
      private javax.swing.JScrollPane trendScroll;
      // ─── NEW : constant height for the notification band
     private static final int NOTI_HEIGHT = 80;
+    private UserData loggedInUser;
 
 
 
     
-      public UserDashboardView() {
+      public UserDashboardView(UserData user) {
         
-        
+        this.loggedInUser = user;
         initComponents();
-         setExtendedState(JFrame.MAXIMIZED_BOTH);
+         userProfilePanel.setLayout(new BorderLayout());
+        userProfilePanel.add(new UserProfilePanel(loggedInUser), BorderLayout.CENTER);
+//         setExtendedState(JFrame.MAXIMIZED_BOTH);
                 /* refresh once the frame is visible */                       // ─── NEW
         addWindowListener(new WindowAdapter(){                         // ─── NEW
             @Override public void windowOpened(WindowEvent e){         // ─── NEW
@@ -247,10 +253,12 @@ public class UserDashboardView extends javax.swing.JFrame {
         userDashboardButton = new javax.swing.JButton();
         userAvailableMoviesButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
+        userProfileButton = new javax.swing.JButton();
         UserDashboardCardPanel = new javax.swing.JPanel();
         UserDashboard = new javax.swing.JPanel();
         AvailableMovies = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        userProfilePanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -290,6 +298,17 @@ public class UserDashboardView extends javax.swing.JFrame {
             }
         });
 
+        userProfileButton.setBackground(new java.awt.Color(0, 0, 0));
+        userProfileButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        userProfileButton.setForeground(new java.awt.Color(255, 255, 255));
+        userProfileButton.setText("User Profile");
+        userProfileButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(25, 25, 112), 1, true));
+        userProfileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userProfileButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanel1Layout = new javax.swing.GroupLayout(mainPanel1);
         mainPanel1.setLayout(mainPanel1Layout);
         mainPanel1Layout.setHorizontalGroup(
@@ -299,7 +318,8 @@ public class UserDashboardView extends javax.swing.JFrame {
                 .addGroup(mainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(userDashboardButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(userAvailableMoviesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                    .addComponent(logoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(logoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userProfileButton, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         mainPanel1Layout.setVerticalGroup(
@@ -309,6 +329,8 @@ public class UserDashboardView extends javax.swing.JFrame {
                 .addComponent(userDashboardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(userAvailableMoviesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(userProfileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
@@ -324,7 +346,7 @@ public class UserDashboardView extends javax.swing.JFrame {
         );
         UserDashboardLayout.setVerticalGroup(
             UserDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 590, Short.MAX_VALUE)
+            .addGap(0, 633, Short.MAX_VALUE)
         );
 
         UserDashboardCardPanel.add(UserDashboard, "UserDashboard");
@@ -344,7 +366,7 @@ public class UserDashboardView extends javax.swing.JFrame {
         );
         AvailableMoviesLayout.setVerticalGroup(
             AvailableMoviesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 590, Short.MAX_VALUE)
+            .addGap(0, 633, Short.MAX_VALUE)
             .addGroup(AvailableMoviesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(AvailableMoviesLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -353,6 +375,19 @@ public class UserDashboardView extends javax.swing.JFrame {
         );
 
         UserDashboardCardPanel.add(AvailableMovies, "AvailableMovies");
+
+        javax.swing.GroupLayout userProfilePanelLayout = new javax.swing.GroupLayout(userProfilePanel);
+        userProfilePanel.setLayout(userProfilePanelLayout);
+        userProfilePanelLayout.setHorizontalGroup(
+            userProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 651, Short.MAX_VALUE)
+        );
+        userProfilePanelLayout.setVerticalGroup(
+            userProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 633, Short.MAX_VALUE)
+        );
+
+        UserDashboardCardPanel.add(userProfilePanel, "userProfileCard");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -400,6 +435,12 @@ public class UserDashboardView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_logoutButtonActionPerformed
 
+    private void userProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProfileButtonActionPerformed
+        // TODO add your handling code here:
+         CardLayout cl = (CardLayout) UserDashboardCardPanel.getLayout();
+        cl.show(UserDashboardCardPanel, "userProfileCard");
+    }//GEN-LAST:event_userProfileButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -426,12 +467,12 @@ public class UserDashboardView extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(UserDashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-         
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UserDashboardView().setVisible(true);
-            }
+       SwingUtilities.invokeLater(() -> {
+            // Mock logged-in user
+            UserData mockUser = new UserData();
+            mockUser.setId(1);
+            mockUser.setName("Test User");
+            new UserDashboardView(mockUser).setVisible(true);
         });
     }
 
@@ -444,6 +485,8 @@ public class UserDashboardView extends javax.swing.JFrame {
     private javax.swing.JPanel mainPanel1;
     private javax.swing.JButton userAvailableMoviesButton;
     private javax.swing.JButton userDashboardButton;
+    private javax.swing.JButton userProfileButton;
+    private javax.swing.JPanel userProfilePanel;
     // End of variables declaration//GEN-END:variables
 
   

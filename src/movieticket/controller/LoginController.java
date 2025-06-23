@@ -173,7 +173,7 @@ public class LoginController {
                         // Open User Dashboard
                         
                        
-                        UserDashboardView userdashboardView = new UserDashboardView();
+                        UserDashboardView userdashboardView = new UserDashboardView(user);
                         UserDashboardController userdashboardController = new UserDashboardController(userdashboardView);
                        
                         userdashboardController.open();
