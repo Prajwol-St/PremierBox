@@ -12,9 +12,12 @@ import javax.swing.JOptionPane;
 import movieticket.dao.CRUDAdminDAO;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -70,7 +73,9 @@ public class AddMoviesController {
                              dashboardView.getDuration().setText(movie.getDuration());
                              dashboardView.getPublishedDate().setText(movie.getDate());
                              
-                             showPoster(movie.getPosterPath()); 
+                             showPoster(movie.getPosterPath());
+                             dashboardView.getShowTimesField().setText(
+                              String.join(", ", movie.getShowTimes()));
                                
                         }
                     } catch (SQLException ex) {
@@ -83,6 +88,19 @@ public class AddMoviesController {
 }
     
     
+     /* ------------------- helper to parse the new field --------------- */
+    private List<String> parseTimes() {
+    return Arrays.stream(
+               dashboardView.getShowTimesField().getText().split(","))
+           .map(String::trim)
+           .map(AddMoviesController::normalise)   // ← this call is mandatory
+           .filter(Objects::nonNull)
+           .distinct()
+           .toList();
+}
+
+
+
     
     public class ImportMovieListener implements ActionListener{
 
@@ -177,7 +195,7 @@ public class AddMoviesController {
             
             try {
                 byte[] imageData = Files.readAllBytes(image.toPath());
-             MoviesData moviesData = new MoviesData(title, genre, duration, Date, imageData);
+             MoviesData moviesData = new MoviesData(title, genre, duration, Date, imageData, parseTimes());
                 boolean result = adminDAO.insertMovies(moviesData);
                 
                 if (result) {
@@ -232,7 +250,7 @@ public class AddMoviesController {
                 } else {
                     moviesData = new MoviesData(selectedMovieId, title, genre, duration, date, null);
                 }
-                
+                 moviesData.setShowTimes(parseTimes());  
                 boolean result = adminDAO.updateMovie(moviesData);
                 
                 if (result) {
@@ -351,15 +369,51 @@ public class AddMoviesController {
          dashboardView.getDuration().setText("");
          dashboardView.getPublishedDate().setText("");
          dashboardView.setSelectedFile(null);
+         dashboardView.getShowTimesField().setText("");  
     }
     
     
- public void open(){
+    public void open(){
         this.dashboardView.setVisible(true);
     }
     public void close(){
         this.dashboardView.dispose();
     }
     
+  
+   private static final java.time.format.DateTimeFormatter OUT =
+        java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+
+   private static String normalise(String raw) {
+        raw = raw.trim();
+        if (raw.isEmpty()) return null;
+
+        try {
+            /* ----------------- no colon: treat as pure digits ------------- */
+            if (!raw.contains(":")) {
+                if (!raw.matches("\\d{1,4}")) return null;       // not 1-4 digits
+                int minutes = Integer.parseInt(raw);
+                String s = String.format("%04d", minutes);       // 9 -> 0009
+                raw = s.substring(0, 2) + ":" + s.substring(2);  // 0009 -> 00:09
+            }
+
+            /* ------------- one or two colons: keep first two parts -------- */
+            if (raw.matches("\\d{1,2}:\\d{1,2}(:\\d{1,2})?")) {
+                String[] part = raw.split(":");
+                int h = Integer.parseInt(part[0]);
+                int m = Integer.parseInt(part[1]);
+                java.time.LocalTime t = java.time.LocalTime.of(h, m);
+                return t.format(OUT);                            // always HH:mm
+            }
+        } catch (Exception ignore) { /* fall through */ }
+
+        return null;   // anything that reaches here is invalid
+  }
+ }
+
     
-}
+    
+ 
+  
+    
+

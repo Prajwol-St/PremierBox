@@ -4,29 +4,40 @@
  */
 package movieticket.view;
 
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import movieticket.dao.UserDao;                       // ─── NEW
+import javax.swing.DefaultListModel;                  // ─── NEW
+import java.util.List; 
+import movieticket.view.components.MovieCard;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.sql.SQLException;
-import java.util.List;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import movieticket.dao.CRUDAdminDAO;
 import movieticket.model.MoviesData;
+import java.sql.SQLException;
+import javax.swing.Box;
+import javax.swing.JLabel;
+import javax.swing.JList;
+
+import javax.swing.JScrollPane;
+// ─── NEW
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import movieticket.model.UserData;
-import movieticket.view.components.MovieCard;
 import movieticket.view.components.UserProfilePanel;
-    
+
+     // put in the import section
+
+
+
 
 /**
  *
@@ -37,32 +48,117 @@ public class UserDashboardView extends javax.swing.JFrame {
     /**
      * Creates new form UserDashboardView
      */
-    private final javax.swing.JScrollPane availableMoviesScrollPane;
-    private JTextField searchField;
-    private JButton searchButton;
+       private final javax.swing.JScrollPane availableMoviesScrollPane;
+     private final JPanel          trendingStrip = new JPanel();
+     private final DefaultListModel<String> notiModel = new DefaultListModel<>();
+     private final UserDao         userDao       = new UserDao();
+     private final int userId = 0;  
+     // ─── NEW  : auto-scroll helper
+     private javax.swing.Timer trendTimer;
+     private javax.swing.JScrollPane trendScroll;
+     // ─── NEW : constant height for the notification band
+    private static final int NOTI_HEIGHT = 80;
     private UserData loggedInUser;
 
 
 
-    public UserDashboardView(UserData user) {
+    
+      public UserDashboardView(UserData user) {
+        
         this.loggedInUser = user;
         initComponents();
-        UserDashboard.setLayout(new BorderLayout());
-        UserDashboard.add(new UserProfilePanel(loggedInUser), BorderLayout.CENTER);
+         userProfilePanel.setLayout(new BorderLayout());
+        userProfilePanel.add(new UserProfilePanel(loggedInUser), BorderLayout.CENTER);
+//         setExtendedState(JFrame.MAXIMIZED_BOTH);
+                /* refresh once the frame is visible */                       // ─── NEW
+        addWindowListener(new WindowAdapter(){                         // ─── NEW
+            @Override public void windowOpened(WindowEvent e){         // ─── NEW
+                loadTrending(); loadNotifications();                   // ─── NEW
+            }});                                                       // ─── NEW
 
-        this.loggedInUser = user;
-        searchField = new JTextField(20);
-        searchButton = new JButton("Search");
-        searchField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        searchButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        searchButton.setBackground(new Color(25, 25, 112));
-        searchButton.setForeground(Color.WHITE);
-        searchButton.setFocusPainted(false);
+                // ─── NEW – build “Trending” + “Notifications” card
+        
+        logoutButton   .setBackground(new Color(204,0,0));
+        for (var b : List.of(userAvailableMoviesButton,userAvailableMoviesButton,logoutButton)){
+            b.setForeground(Color.WHITE);
+            b.setFocusPainted(false);
+        }
 
-        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
-        searchPanel.add(new JLabel("Search:"));
-        searchPanel.add(searchField);
-        searchPanel.add(searchButton);
+        /* ---------- build DASHBOARD content ---------- */
+        UserDashboard.removeAll();
+        UserDashboard.setLayout(
+        new javax.swing.BoxLayout(UserDashboard, javax.swing.BoxLayout.Y_AXIS));   // ─── NEW
+
+        UserDashboard.setBackground(new Color(30,34,40));               // ─── NEW ───
+
+        // title helper
+        java.util.function.Function<String,JLabel> h =
+            s -> { JLabel l=new JLabel(s); l.setFont(new Font("Segoe UI",1,18));
+                   l.setForeground(Color.WHITE); return l; };
+
+        /* 1. TRENDING STRIP (top) */
+        trendingStrip.setLayout(new FlowLayout(FlowLayout.LEFT,15,15));
+        trendingStrip.setOpaque(false);
+         JScrollPane trendScroll = new JScrollPane(trendingStrip,
+                 JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        trendScroll.setBorder(null);
+        trendScroll.getViewport().setOpaque(false);
+
+        JPanel trendingBlock = new JPanel(new BorderLayout());
+        trendingBlock.setOpaque(false);
+        trendingBlock.add(h.apply("Trending this week"), BorderLayout.NORTH);
+        trendingBlock.add(trendScroll,                     BorderLayout.CENTER);
+        trendingBlock.setPreferredSize(new Dimension(0,330));           // ─── NEW ───
+       
+
+        /* 2. NOTIFICATIONS (bottom) */
+        JList<String> notiList = new JList<>(notiModel);
+                // in UserDashboardView constructor, after you create notiList
+            notiList.addListSelectionListener(e -> {
+         if (!e.getValueIsAdjusting()) {
+             String msg = notiList.getSelectedValue();
+             if (msg != null && !msg.equals("No new notifications")) {
+                 userDao.markNotificationRead(userId, msg);   // << calls helper
+                 loadNotifications();                         // refresh list
+             }
+         }
+     });
+
+
+        notiList.setBackground(new Color(34,34,40));
+        notiList.setForeground(Color.WHITE);
+        JScrollPane notiScroll = new JScrollPane(notiList);
+        notiScroll.setBorder(null);
+                // ─── NEW : lock the block at 120 px
+        notiScroll.setPreferredSize(new Dimension(0, NOTI_HEIGHT));
+        notiScroll.setMaximumSize  (new Dimension(Integer.MAX_VALUE, NOTI_HEIGHT));
+
+                 
+
+        JPanel notiBlock = new JPanel(new BorderLayout());
+        notiBlock.setOpaque(false);
+        notiBlock.add(h.apply("Notifications"), BorderLayout.NORTH);
+        notiBlock.add(notiScroll,               BorderLayout.CENTER);
+         UserDashboard.add(trendingBlock);                                      // ─── NEW
+        UserDashboard.add(Box.createVerticalStrut(15));  // optional gap       // ─── NEW
+        UserDashboard.add(notiBlock);                                           // ─── NEW
+
+        
+
+        /* ---------- listeners ---------- */
+        userDashboardButton.addActionListener(e -> {
+            ((CardLayout)UserDashboardCardPanel.getLayout()).show(UserDashboardCardPanel,"UserDashboard");
+            loadTrending(); loadNotifications();                        // ─── NEW ───
+        });
+        userAvailableMoviesButton.addActionListener(e -> {
+            ((CardLayout)UserDashboardCardPanel.getLayout()).show(UserDashboardCardPanel,"AvailableMovies");
+            displayAvailableMovies();
+        });
+
+       
+    
+
 
         AvailableMovies = new JPanel();
         AvailableMovies.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
@@ -71,39 +167,24 @@ public class UserDashboardView extends javax.swing.JFrame {
         availableMoviesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         availableMoviesScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         availableMoviesScrollPane.setBorder(null);
-
-        JPanel containerPanel = new JPanel();
-        containerPanel.setLayout(new BorderLayout());
-        containerPanel.add(searchPanel, BorderLayout.NORTH);
-        containerPanel.add(availableMoviesScrollPane, BorderLayout.CENTER);
-
+        
         UserDashboardCardPanel.add(UserDashboard, "UserDashboard");
-        UserDashboardCardPanel.add(containerPanel, "AvailableMovies");
+        UserDashboardCardPanel.add(availableMoviesScrollPane, "AvailableMovies");
 
-        searchButton.addActionListener(e -> {
-            String keyword = searchField.getText().trim();
-            displayAvailableMovies(keyword);
-        });
+        /* --- start-up card ------------------------------------ */          // NEW
+        ((CardLayout) UserDashboardCardPanel.getLayout())                     // NEW
+                .show(UserDashboardCardPanel, "UserDashboard");               // NEW
+
 
     }
-
-    
-    private void displayAvailableMovies() {
-        String keyword = searchField.getText().trim();
-        displayAvailableMovies(keyword);
-    }
-    
-     private void displayAvailableMovies(String keyword) {
+     private void displayAvailableMovies() {
         AvailableMovies.removeAll(); // Clear previous content
         AvailableMovies.setLayout(new java.awt.GridBagLayout());
-        
-        
+
         CRUDAdminDAO dao = new CRUDAdminDAO();
     try {
-        List<MoviesData> allMovies = dao.getAllMoviesWithImages();
-        List<MoviesData> filteredMovies = allMovies.stream().filter(movie -> movie.getTitle().toLowerCase().contains(keyword.toLowerCase())).toList();
-
-        GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        java.util.List<MoviesData> movies = dao.getAllMoviesWithImages();
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
         gbc.insets = new java.awt.Insets(20, 30, 20, 30); // Top, Left, Bottom, Right spacing
         gbc.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gbc.fill = java.awt.GridBagConstraints.NONE;
@@ -111,7 +192,7 @@ public class UserDashboardView extends javax.swing.JFrame {
         int col = 0;
         int row = 0;
 
-        for (MoviesData movie : filteredMovies) {
+        for (MoviesData movie : movies) {
             MovieCard card = new MovieCard(movie);
 
             gbc.gridx = col;
@@ -128,10 +209,37 @@ public class UserDashboardView extends javax.swing.JFrame {
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(this, "Failed to load movies.", "Error", JOptionPane.ERROR_MESSAGE);
     }
-
     AvailableMovies.revalidate();
     AvailableMovies.repaint();
 }
+   // ─── NEW : fetch 10 best-selling posters this week
+        private void loadTrending() {
+            trendingStrip.removeAll();
+            try {
+                List<MoviesData> list = new CRUDAdminDAO().getTrendingMovies();
+                for (MoviesData m : list) {
+                    trendingStrip.add(new MovieCard(m));   // 1-arg ctor is fine
+                }
+            } catch (SQLException ex) {
+                trendingStrip.add(new JLabel("DB error"));
+            }
+            trendingStrip.revalidate();
+            trendingStrip.repaint();
+        }
+
+        // ─── NEW : unread notifications
+        private void loadNotifications() {
+            notiModel.clear();
+            List<String> rows = userDao.getUnreadNotifications(userId);
+            if (rows.isEmpty())
+                notiModel.addElement("No new notifications");
+            else
+                rows.forEach(notiModel::addElement);
+        }
+
+
+
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -145,11 +253,12 @@ public class UserDashboardView extends javax.swing.JFrame {
         userDashboardButton = new javax.swing.JButton();
         userAvailableMoviesButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
+        userProfileButton = new javax.swing.JButton();
         UserDashboardCardPanel = new javax.swing.JPanel();
         UserDashboard = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         AvailableMovies = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        userProfilePanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -189,6 +298,17 @@ public class UserDashboardView extends javax.swing.JFrame {
             }
         });
 
+        userProfileButton.setBackground(new java.awt.Color(0, 0, 0));
+        userProfileButton.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        userProfileButton.setForeground(new java.awt.Color(255, 255, 255));
+        userProfileButton.setText("User Profile");
+        userProfileButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(25, 25, 112), 1, true));
+        userProfileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userProfileButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanel1Layout = new javax.swing.GroupLayout(mainPanel1);
         mainPanel1.setLayout(mainPanel1Layout);
         mainPanel1Layout.setHorizontalGroup(
@@ -198,7 +318,8 @@ public class UserDashboardView extends javax.swing.JFrame {
                 .addGroup(mainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(userDashboardButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(userAvailableMoviesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                    .addComponent(logoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(logoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userProfileButton, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         mainPanel1Layout.setVerticalGroup(
@@ -208,6 +329,8 @@ public class UserDashboardView extends javax.swing.JFrame {
                 .addComponent(userDashboardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(userAvailableMoviesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(userProfileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
                 .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
@@ -215,31 +338,15 @@ public class UserDashboardView extends javax.swing.JFrame {
 
         UserDashboardCardPanel.setLayout(new java.awt.CardLayout());
 
-        this.loggedInUser = user;
-        UserDashboard.setLayout(new BorderLayout());
-        UserDashboard.add(new UserProfilePanel(loggedInUser), BorderLayout.CENTER);
-
-        jLabel1.setText("jLabel1");
-
         javax.swing.GroupLayout UserDashboardLayout = new javax.swing.GroupLayout(UserDashboard);
         UserDashboard.setLayout(UserDashboardLayout);
         UserDashboardLayout.setHorizontalGroup(
             UserDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 651, Short.MAX_VALUE)
-            .addGroup(UserDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(UserDashboardLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel1)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         UserDashboardLayout.setVerticalGroup(
             UserDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 590, Short.MAX_VALUE)
-            .addGroup(UserDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(UserDashboardLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel1)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGap(0, 633, Short.MAX_VALUE)
         );
 
         UserDashboardCardPanel.add(UserDashboard, "UserDashboard");
@@ -259,7 +366,7 @@ public class UserDashboardView extends javax.swing.JFrame {
         );
         AvailableMoviesLayout.setVerticalGroup(
             AvailableMoviesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 590, Short.MAX_VALUE)
+            .addGap(0, 633, Short.MAX_VALUE)
             .addGroup(AvailableMoviesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(AvailableMoviesLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -269,16 +376,29 @@ public class UserDashboardView extends javax.swing.JFrame {
 
         UserDashboardCardPanel.add(AvailableMovies, "AvailableMovies");
 
+        javax.swing.GroupLayout userProfilePanelLayout = new javax.swing.GroupLayout(userProfilePanel);
+        userProfilePanel.setLayout(userProfilePanelLayout);
+        userProfilePanelLayout.setHorizontalGroup(
+            userProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 651, Short.MAX_VALUE)
+        );
+        userProfilePanelLayout.setVerticalGroup(
+            userProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 633, Short.MAX_VALUE)
+        );
+
+        UserDashboardCardPanel.add(userProfilePanel, "userProfileCard");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(mainPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 664, Short.MAX_VALUE))
+                .addGap(0, 661, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(187, Short.MAX_VALUE)
+                    .addContainerGap(184, Short.MAX_VALUE)
                     .addComponent(UserDashboardCardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
@@ -293,40 +413,61 @@ public class UserDashboardView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void userDashboardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userDashboardButtonActionPerformed
-        CardLayout cl = (CardLayout) UserDashboardCardPanel.getLayout();
+        // TODO add your handling code here:
+         CardLayout cl = (CardLayout) UserDashboardCardPanel.getLayout();
         cl.show(UserDashboardCardPanel, "UserDashboard");
+
+        // ─── NEW : refresh panels
+        loadTrending();
+        loadNotifications();
     }//GEN-LAST:event_userDashboardButtonActionPerformed
 
     private void userAvailableMoviesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userAvailableMoviesButtonActionPerformed
         // TODO add your handling code here:
-    CardLayout cl = (CardLayout) UserDashboardCardPanel.getLayout();
-    cl.show(UserDashboardCardPanel, "AvailableMovies");
-    displayAvailableMovies();
+        CardLayout cl = (CardLayout) UserDashboardCardPanel.getLayout();
+        cl.show(UserDashboardCardPanel, "AvailableMovies");
+        displayAvailableMovies();
     }//GEN-LAST:event_userAvailableMoviesButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
-        int response = JOptionPane.showConfirmDialog(
-        this,
-        "Are you sure you want to log out?",
-        "Logout Confirmation",
-        JOptionPane.YES_NO_OPTION,
-        JOptionPane.QUESTION_MESSAGE
-    );
-
-    if (response == JOptionPane.YES_OPTION) {
-        this.dispose();
-
-        new LoginView().setVisible(true);
-    }
+        // TODO add your handling code here:
     }//GEN-LAST:event_logoutButtonActionPerformed
+
+    private void userProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userProfileButtonActionPerformed
+        // TODO add your handling code here:
+         CardLayout cl = (CardLayout) UserDashboardCardPanel.getLayout();
+        cl.show(UserDashboardCardPanel, "userProfileCard");
+    }//GEN-LAST:event_userProfileButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(UserDashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(UserDashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(UserDashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(UserDashboardView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+       SwingUtilities.invokeLater(() -> {
             // Mock logged-in user
             UserData mockUser = new UserData();
             mockUser.setId(1);
@@ -339,12 +480,13 @@ public class UserDashboardView extends javax.swing.JFrame {
     private javax.swing.JPanel AvailableMovies;
     private javax.swing.JPanel UserDashboard;
     private javax.swing.JPanel UserDashboardCardPanel;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton logoutButton;
     private javax.swing.JPanel mainPanel1;
     private javax.swing.JButton userAvailableMoviesButton;
     private javax.swing.JButton userDashboardButton;
+    private javax.swing.JButton userProfileButton;
+    private javax.swing.JPanel userProfilePanel;
     // End of variables declaration//GEN-END:variables
 
   
@@ -358,6 +500,10 @@ public class UserDashboardView extends javax.swing.JFrame {
   
   public JButton getAvailableMovies(){
         return userAvailableMoviesButton;
+    }
+  
+   public void logoutMovieListener(ActionListener listener){
+        logoutButton.addActionListener(listener);
     }
   
 
