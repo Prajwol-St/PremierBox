@@ -27,8 +27,8 @@ public class BookSeatView extends JFrame {
         setTitle("Book Your Seats");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        getContentPane().setBackground(new Color(21,24,30));
-        setLayout(new BorderLayout(10,10));
+        getContentPane().setBackground(new Color(34,34,40));
+        setLayout(new BorderLayout(0,0));
 
         // Header
         infoLabel = new JLabel("Select seats and click “Book”");
@@ -36,52 +36,59 @@ public class BookSeatView extends JFrame {
         infoLabel.setFont(new Font("Segoe UI", Font.BOLD, 22));
         infoLabel.setForeground(Color.WHITE);
         infoLabel.setBorder(new EmptyBorder(15,0,15,0));
-        add(infoLabel, BorderLayout.NORTH);
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(new Color(34,34,40));
+        headerPanel.add(infoLabel, BorderLayout.CENTER);
+        add(headerPanel, BorderLayout.NORTH);
+
+        // Main panel with screen and seats, light gray background
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(new Color(220,220,225));
+
+        // SCREEN label centered above seats, black color
+        JLabel screenLabel = new JLabel("SCREEN", SwingConstants.CENTER);
+        screenLabel.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        screenLabel.setForeground(Color.BLACK);
+        screenLabel.setBorder(new EmptyBorder(32,0,24,0));
+        mainPanel.add(screenLabel, BorderLayout.NORTH);
 
         // Seat grid
-        seatPanel = new JPanel(new GridBagLayout()) {
-            @Override protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D)g.create();
-                g2.setPaint(new GradientPaint(0,0,new Color(34,34,40), 0,getHeight(),new Color(26,26,32)));
-                g2.fillRect(0,0,getWidth(),getHeight());
-                g2.dispose();
-                super.paintComponent(g);
-            }
-        };
-        seatPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        seatPanel = new JPanel(new GridBagLayout());
+        seatPanel.setBackground(new Color(220,220,225));
+        seatPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(6,6,6,6);
+        gbc.insets = new Insets(8,8,8,8);
 
-        // 7 rows, 10 columns (a-j), each seat: a1, a2, ..., g10
         int numRows = 7;
         int numCols = 10;
+
         for(int row = 0; row < numRows; row++) {
-            char rowChar = (char)('a' + row); // 'a', 'b', ...
+            char rowChar = (char)('A' + row);
             for(int col = 0; col < numCols; col++) {
                 gbc.gridx = col;
                 gbc.gridy = row;
-                String sid = rowChar + String.valueOf(col + 1); // a1, a2, ..., b1, ...
+                String sid = rowChar + String.valueOf(col + 1);
                 Color seatColor;
                 if(col == 0) {
-                    seatColor = new Color(255,120,120); // Leftmost: red (couple)
+                    seatColor = new Color(255,120,120); // Leftmost: red
                 } else if(col == numCols - 1) {
-                    seatColor = new Color(120,255,120); // Rightmost: green (mixed)
+                    seatColor = new Color(120,255,120); // Rightmost: green
                 } else {
-                    seatColor = new Color(120,180,255); // Center: blue (family)
+                    seatColor = new Color(120,180,255); // Center: blue
                 }
                 seatPanel.add(createSeatButton(sid, seatColor), gbc);
             }
         }
 
-        JScrollPane scroll = new JScrollPane(seatPanel);
-        scroll.setBorder(null);
-        add(scroll, BorderLayout.CENTER);
+        mainPanel.add(seatPanel, BorderLayout.CENTER);
+
+        add(mainPanel, BorderLayout.CENTER);
 
         // Footer
         bookButton = new JButton("BOOK SELECTED SEATS");
         stylePrimaryButton(bookButton);
-        JPanel bottom = new JPanel(new FlowLayout(FlowLayout.CENTER,0,20));
-        bottom.setOpaque(false);
+        JPanel bottom = new JPanel(new FlowLayout(FlowLayout.CENTER,0,28));
+        bottom.setBackground(new Color(34,34,40));
         bottom.add(bookButton);
         add(bottom, BorderLayout.SOUTH);
 
@@ -92,9 +99,9 @@ public class BookSeatView extends JFrame {
     /* --------------- helpers ----------------------------------- */
 
     private JButton createSeatButton(String id, Color base) {
-        JButton b = new JButton(id);
-        b.setPreferredSize(new Dimension(72,48));
-        b.setFont(new Font("Segoe UI",Font.BOLD,16));
+        JButton b = new JButton(id.toUpperCase());
+        b.setPreferredSize(new Dimension(64,48));
+        b.setFont(new Font("Segoe UI",Font.BOLD,18));
         b.setForeground(Color.WHITE);
         b.setBorder(BorderFactory.createEmptyBorder());
         b.setFocusPainted(false);
@@ -106,10 +113,10 @@ public class BookSeatView extends JFrame {
                 Graphics2D g2 = (Graphics2D)g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 Color fill = selectedSeats.contains(b) ? new Color(0,200,0)
-                        : !b.isEnabled() ? Color.GRAY
+                        : !b.isEnabled() ? new Color(120,120,120)
                         : base;
                 g2.setColor(fill);
-                g2.fillRoundRect(0,0,c.getWidth(),c.getHeight(),16,16);
+                g2.fillRoundRect(0,0,c.getWidth(),c.getHeight(),14,14);
                 super.paint(g,c);
                 g2.dispose();
             }
@@ -121,7 +128,7 @@ public class BookSeatView extends JFrame {
             b.addActionListener(e -> toggleSeat(b, base));
         }
 
-        seatMap.put(b, id);
+        seatMap.put(b, id.toUpperCase());
         return b;
     }
 
@@ -150,7 +157,7 @@ public class BookSeatView extends JFrame {
         b.setFont(new Font("Segoe UI",Font.BOLD,18));
         b.setForeground(Color.white);
         b.setBackground(new Color(0x0E63C4));
-        b.setBorder(BorderFactory.createEmptyBorder(12,28,12,28));
+        b.setBorder(BorderFactory.createEmptyBorder(14,36,14,36));
         b.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         b.setUI(new BasicButtonUI() {
             @Override public void paint(Graphics g,JComponent c) {
