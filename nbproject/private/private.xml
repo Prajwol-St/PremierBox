@@ -4,9 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/ASUS/Desktop/ayush/ayush/src/movieticket/view/UserDashboardView.java</file>
-            <file>file:/C:/Users/ASUS/Desktop/ayush/ayush/src/movieticket/view/DashboardView.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/ayush/ayush/src/movieticket/database/DbConnection.java</file>
             <file>file:/C:/Users/ASUS/Desktop/ayush/ayush/src/movieticket/database/MySqlConnection.java</file>
-            <file>file:/C:/Users/ASUS/Desktop/ayush/ayush/src/movieticket/dao/CRUDAdminDAO.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/ayush/ayush/src/movieticket/view/PaymentView.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/ayush/ayush/src/movieticket/view/ShowtimeBooking.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/ayush/ayush/src/movieticket/view/BookSeatView.java</file>
         </group>
     </open-files>
 </project-private>

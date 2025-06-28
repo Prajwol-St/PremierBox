@@ -19,6 +19,8 @@ public class BookSeatView extends JFrame {
     private final Map<JButton, String> seatMap = new HashMap<>();
     private final UserDao userDao;
     private final int movieId;
+    // --- ADDED: Total price label ---
+    private JLabel totalPriceLabel;
 
     public BookSeatView(UserDao dao, int movieId) {
         this.userDao = dao;
@@ -80,6 +82,15 @@ public class BookSeatView extends JFrame {
             }
         }
 
+        // --- ADDED: Total price label below G row at right corner ---
+        gbc.gridx = numCols - 1; // last column
+        gbc.gridy = numRows;     // row after last seat row
+        gbc.anchor = GridBagConstraints.SOUTHEAST;
+        totalPriceLabel = new JLabel("Total: 0");
+        totalPriceLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        totalPriceLabel.setForeground(Color.BLACK);
+        seatPanel.add(totalPriceLabel, gbc);
+
         mainPanel.add(seatPanel, BorderLayout.CENTER);
 
         add(mainPanel, BorderLayout.CENTER);
@@ -139,6 +150,13 @@ public class BookSeatView extends JFrame {
             selectedSeats.add(btn);
         }
         btn.repaint();
+        updateTotalPrice(); // update price when selection changes
+    }
+
+    // --- ADDED: Update total price label ---
+    private void updateTotalPrice() {
+        int total = selectedSeats.size() * 250;
+        totalPriceLabel.setText("Total: " + total);
     }
 
     public void addBookListener(ActionListener l) {
