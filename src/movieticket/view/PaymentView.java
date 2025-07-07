@@ -6,24 +6,18 @@ import java.awt.*;
 
 public class PaymentView extends JFrame {
 
-    public JTextField amountField, cardNumberField, cardHolderField, expiryField;
+    public JTextField amountField, cardNumberField,
+                      cardHolderField, expiryField;
     public JPasswordField cvvField;
     public JButton payButton;
 
-    public PaymentView(int userId, Object dao, int movieId, String seats) {
+    public PaymentView(int userId, Object dao,        // dao kept only to match ctor
+                       int movieId, String seats) {   // ─── NEW (extra params) ───
         initUI();
-
-        // Calculate amount based on number of seats (default price per seat: 250)
-        int seatCount = 0;
-        if (seats != null && !seats.trim().isEmpty()) {
-            seatCount = seats.split(",").length;
-        }
-        int totalAmount = seatCount * 250;
-        amountField.setText(String.valueOf(totalAmount));
-        amountField.setEditable(false); // Make amount field read-only
     }
 
     private void initUI() {
+
         setTitle("Payment");
         setSize(420, 340);
         setLocationRelativeTo(null);
@@ -61,17 +55,8 @@ public class PaymentView extends JFrame {
         add(p,BorderLayout.CENTER);
     }
 
-    private JLabel label(String t){
-        JLabel l=new JLabel(t);
-        l.setForeground(Color.WHITE);
-        return l;
-    }
-
-    private JTextField field(){
-        JTextField f=new JTextField(16);
-        stylise(f);
-        return f;
-    }
+    private JLabel label(String t){ JLabel l=new JLabel(t); l.setForeground(Color.WHITE); return l; }
+    private JTextField field(){ JTextField f=new JTextField(16); stylise(f); return f; }
 
     private void stylise(JTextField f){
         f.setForeground(Color.WHITE);
@@ -80,7 +65,6 @@ public class PaymentView extends JFrame {
                 BorderFactory.createLineBorder(new Color(60,60,70)),
                 new EmptyBorder(6,8,6,8)));
     }
-
     private void stylePrimary(JButton b){
         b.setForeground(Color.white);
         b.setBackground(new Color(0x0E63C4));

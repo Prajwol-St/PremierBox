@@ -3,6 +3,7 @@ package movieticket.model;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList; // Import ArrayList
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -24,7 +25,7 @@ public class MoviesData {
         this.duration = duration;
         this.date = date;
         this.posterPath = posterPath;
-        this.showTimes = times;
+        this.showTimes = times != null ? times : new ArrayList<>(); // Initialize to empty list if null
     }
     
     public MoviesData(int movie_id, String title, String genre, String duration, String date, byte[] posterPath) {
@@ -34,6 +35,18 @@ public class MoviesData {
         this.duration = duration;
         this.date = date;
         this.posterPath = posterPath;
+        this.showTimes = new ArrayList<>(); // Initialize to an empty list
+    }
+
+    // New constructor to include showTimes for cases where movie_id is known
+    public MoviesData(int movie_id, String title, String genre, String duration, String date, byte[] posterPath, List<String> times) {
+        this.movie_id = movie_id;
+        this.title = title;
+        this.genre = genre;
+        this.duration = duration;
+        this.date = date;
+        this.posterPath = posterPath;
+        this.showTimes = times != null ? times : new ArrayList<>(); // Initialize to empty list if null
     }
     
     public int getMovie_id() {
@@ -81,10 +94,12 @@ public class MoviesData {
     }
     
     public List<String> getShowTimes(){
-        return showTimes; }
+        return showTimes != null ? showTimes : new ArrayList<>(); // Always return a list, never null
+    }
 
     public void setShowTimes(List<String> st){
-        this.showTimes = st; }
+        this.showTimes = st != null ? st : new ArrayList<>(); // Ensure nulls are converted to empty list
+    }
     
     
     public ImageIcon getScaledPoster(int w, int h) {            // NEW
